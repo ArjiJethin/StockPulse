@@ -10,7 +10,7 @@
         />
         <link rel="stylesheet" href="style.css" />
     </head>
-    <body>
+    <body class="dark-mode">
         <div class="container">
             <!-- Login Form -->
             <div class="form-box login">
@@ -78,14 +78,20 @@
                 <div class="toggle-panel toggle-left">
                     <h1>Hello, Welcome!</h1>
                     <p>Don't have an account?</p>
-                    <button class="btn register-btn">Register</button>
+                    <button class="btn register-btn dark-mode">Register</button>
                 </div>
                 <div class="toggle-panel toggle-right">
                     <h1>Welcome Back!</h1>
                     <p>Already have an account?</p>
-                    <button class="btn login-btn">Login</button>
+                    <button class="btn login-btn dark-mode">Login</button>
                 </div>
             </div>
+
+            <button class="mode-btn" onclick="darkMode()">
+                <div class="bulb">
+                    <i class="bx bxs-bulb"></i>
+                </div>
+            </button>
         </div>
 
         <script src="script.js"></script>

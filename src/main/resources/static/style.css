@@ -15,6 +15,10 @@ body {
     background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
 }
 
+body.dark-mode {
+    background: linear-gradient(90deg, #181717, #1c1c1c);
+}
+
 .container {
     position: relative;
     width: 850px;
@@ -26,6 +30,10 @@ body {
     overflow: hidden;
 }
 
+.dark-mode .container {
+    border: #24243e solid 1px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+}
 .form-box {
     position: absolute;
     right: 0;
@@ -120,6 +128,20 @@ form {
     font-size: 16px;
     color: #fff;
     font-weight: 600;
+    transition: 1s ease;
+}
+
+.dark-mode .btn {
+    background: linear-gradient(to bottom, #0f0c29, #302b63);
+    box-shadow: 0px 1px 10px rgba(64, 0, 117, 0.8);
+}
+
+.btn:hover {
+    background: #4da1ff;
+}
+
+.dark-mode .btn:hover {
+    background: #0f0c29;
 }
 
 .container p {
@@ -156,10 +178,16 @@ form {
     width: 300%;
     height: 100%;
     background: linear-gradient(0deg, #4da1ff 0%, #6fcbff 50%, #aeebff 100%);
-    border-radius: 150px;
+    border-radius: 60px;
     box-shadow: 1px 2px 10px rgba(7, 172, 255, 0.86);
-    z-index: 2;
+    z-index: 1; /* Lower the z-index to ensure it doesn't overlap interactive elements */
+    pointer-events: none; /* Prevent the pseudo-element from interfering with clicks */
     transition: 0.7s ease-in-out;
+}
+
+.dark-mode .toggle-box::before {
+    background: linear-gradient(to top, #0f0c29, #302b63, #24243e);
+    box-shadow: 1px 3px 15px rgba(64, 0, 117, 0.8);
 }
 
 .container.active .toggle-box::before {
@@ -175,7 +203,7 @@ form {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 2;
+    z-index: 2; /* Ensure this is above the pseudo-element */
     transition: 0.6s ease-in-out;
 }
 
@@ -205,6 +233,41 @@ form {
     background: transparent;
     border: 2px solid #fff;
     box-shadow: none;
+    transition: 0.6s ease;
+}
+.toggle-panel .btn:hover {
+    background: white;
+    /* color: linear-gradient(0deg, #aeebff 30%, #6fcbff 60%, #4da1ff 100%); */
+    color: #4da1ff;
+}
+
+.dark-mode .toggle-panel .btn:hover {
+    color: #0f0c29;
+}
+
+.bulb {
+    position: absolute;
+    z-index: 10;
+    right: 10px;
+    top: 10px;
+    padding: 10px;
+    background: linear-gradient(0deg, #6fcbff 50%, #4da1ff 100%);
+    border-radius: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.dark-mode .bulb {
+    background: linear-gradient(to bottom, #0f0c29, #24243e);
+    color: white;
+}
+
+.bulb i {
+    color: white;
+    font-size: 3vh;
+    transform: rotate(-135deg);
 }
 
 @media screen and (max-width: 650px) {
@@ -225,6 +288,12 @@ form {
     }
 
     .toggle-box::before {
+        background: linear-gradient(
+            90deg,
+            #4da1ff 30%,
+            #6fcbff 60%,
+            #aeebff 100%
+        );
         left: 0;
         top: -270%;
         width: 100%;
@@ -267,5 +336,9 @@ form {
         bottom: 0;
         z-index: 2;
         transition: 0.8s ease-in-out;
+    }
+
+    .bulb {
+        padding: 5px;
     }
 }
