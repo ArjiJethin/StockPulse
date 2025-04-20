@@ -7,16 +7,23 @@
     font-family: "Poppins", sans-serif;
 }
 
+:root {
+    --bg-color: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+    --dark-bg-color: linear-gradient(90deg, #181717, #1c1c1c);
+    --btn-color: linear-gradient(180deg, #4da1ff 0%, #6fcbff 50%, #aeebff 100%);
+    --dark-btn-color: linear-gradient(to bottom, #0f0c29, #302b63);
+}
+
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+    background: var(--bg-color);
 }
 
 body.dark-mode {
-    background: linear-gradient(90deg, #181717, #1c1c1c);
+    background: var(--dark-bg-color);
 }
 
 .container {
@@ -25,14 +32,14 @@ body.dark-mode {
     height: 550px;
     background-color: #fff;
     border-radius: 30px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 40px rgba(16, 139, 211, 0.5);
     margin: 10px 20px;
     overflow: hidden;
 }
 
 .dark-mode .container {
     border: #24243e solid 1px;
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 100px rgba(64, 0, 117, 0.834);
 }
 .form-box {
     position: absolute;
@@ -120,7 +127,7 @@ form {
 .btn {
     width: 100%;
     height: 40px;
-    background: linear-gradient(180deg, #4da1ff 0%, #6fcbff 50%, #aeebff 100%);
+    background: var(--btn-color);
     border-radius: 8px;
     box-shadow: 1px 1px 8px rgba(7, 172, 255, 0.726);
     border: none;
@@ -132,7 +139,7 @@ form {
 }
 
 .dark-mode .btn {
-    background: linear-gradient(to bottom, #0f0c29, #302b63);
+    background: var(--dark-btn-color);
     box-shadow: 0px 1px 10px rgba(64, 0, 117, 0.8);
 }
 
