@@ -289,6 +289,14 @@ form {
         height: 70%;
     }
 
+    .login {
+        padding-bottom: 100px;
+    }
+
+    .register {
+        padding-top: 60px;
+    }
+
     .container.active .form-box {
         right: 0;
         bottom: 30%;
@@ -323,6 +331,10 @@ form {
         text-align: center; */
     }
 
+    .toggle-panel h1 {
+        font-size: 3vh;
+    }
+
     .toggle-panel.toggle-left {
         top: 0;
     }
@@ -347,5 +359,16 @@ form {
 
     .bulb {
         padding: 5px;
+    }
+}
+
+@media screen and (max-width: 370px) {
+    .container {
+        height: calc(100vh - 20px);
+        top: 0px;
+    }
+
+    .form-box h1 {
+        font-size: 3.5vh;
     }
 }
