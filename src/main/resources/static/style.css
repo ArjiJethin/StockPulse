@@ -394,11 +394,50 @@ form {
     width: 100%;
     height: auto;
     display: block;
-    filter: drop-shadow(0 0 10px #ffffff) drop-shadow(0 0 10px #33ccff);
+    filter: drop-shadow(0 0 20px #ffffff) drop-shadow(0 0 20px #33ccff);
+    transition: filter 0.4s ease-in-out;
 }
 
+.svg-container svg:hover {
+    animation: flickerHoverGlow 2.5s ease-in-out;
+    cursor: pointer;
+}
+
+@keyframes flickerHoverGlow {
+    0% {
+        filter: drop-shadow(0 0 20px #ffffff) drop-shadow(0 0 20px #33ccff);
+    }
+    50% {
+        filter: drop-shadow(0 0 30px #ffffff) drop-shadow(0 0 30px #33ccff);
+    }
+    100% {
+        filter: drop-shadow(0 0 40px #ffffff) drop-shadow(0 0 40px #33ccff);
+    }
+}
+
+/* Initial subtle glow */
 .dark-mode .svg-container svg {
     filter: drop-shadow(0 0 3px #ffd700) drop-shadow(0 0 3px #ffa500);
+    transition: filter 0.5s ease-in-out; /* smoother fade out */
+}
+
+/* Add a class that triggers the animation only on hover */
+.dark-mode .svg-container svg:hover {
+    animation: pulseHoverGlowDark 2s infinite ease-in-out;
+    cursor: pointer;
+}
+
+/* Smooth pulse glow */
+@keyframes pulseHoverGlowDark {
+    0% {
+        filter: drop-shadow(0 0 3px #ffd700) drop-shadow(0 0 3px #ffa500);
+    }
+    50% {
+        filter: drop-shadow(0 0 10px #ffd700) drop-shadow(0 0 15px #ffa500);
+    }
+    100% {
+        filter: drop-shadow(0 0 3px #ffd700) drop-shadow(0 0 3px #ffa500);
+    }
 }
 
 .svg-container path {
