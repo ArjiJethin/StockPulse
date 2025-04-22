@@ -394,6 +394,11 @@ form {
     width: 100%;
     height: auto;
     display: block;
+    filter: drop-shadow(0 0 10px #ffffff) drop-shadow(0 0 10px #33ccff);
+}
+
+.dark-mode .svg-container svg {
+    filter: drop-shadow(0 0 3px #ffd700) drop-shadow(0 0 3px #ffa500);
 }
 
 .svg-container path {
@@ -402,7 +407,7 @@ form {
     fill: none;
     stroke-dasharray: 1000;
     stroke-dashoffset: 1000;
-    animation: draw 6s ease-in-out infinite;
+    animation: draw 7s ease-in-out infinite;
 }
 
 .dark-mode .svg-container path {
