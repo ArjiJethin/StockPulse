@@ -1,0 +1,25 @@
+path {
+    /*stroke: #ffd700;*/
+    stroke: #000000;
+    stroke-width: 5;
+    fill: none;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: draw 6s ease-in-out infinite;
+}
+
+@keyframes draw {
+    0% {
+        stroke-dashoffset: 1000;
+    }
+    50% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: 1000;
+    }
+}
+
+.svg-container svg {
+    width: 500vh;
+}

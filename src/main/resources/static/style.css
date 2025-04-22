@@ -337,6 +337,7 @@ form {
 
     .toggle-panel.toggle-left {
         top: 0;
+        bottom: 200;
     }
 
     .container.active .toggle-panel.toggle-left {
@@ -360,9 +361,17 @@ form {
     .bulb {
         padding: 5px;
     }
+
+    .svg-container {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 370px) {
+    .svg-container {
+        display: none;
+    }
+
     .container {
         height: calc(100vh - 20px);
         top: 0px;
@@ -370,5 +379,44 @@ form {
 
     .form-box h1 {
         font-size: 3.5vh;
+    }
+}
+
+/*SVG PART*/
+.svg-container {
+    width: 100%;
+    max-width: 220px;
+    margin-top: -12%;
+    /* margin: 0 auto 1rem; */
+}
+
+.svg-container svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.svg-container path {
+    stroke: #ffffff;
+    stroke-width: 6;
+    fill: none;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: draw 6s ease-in-out infinite;
+}
+
+.dark-mode .svg-container path {
+    stroke: #ffd700;
+}
+
+@keyframes draw {
+    0% {
+        stroke-dashoffset: 1000;
+    }
+    50% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: 1000;
     }
 }
