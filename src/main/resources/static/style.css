@@ -314,12 +314,12 @@ form {
         margin: 0 auto; /* Center horizontally */
         position: absolute; /* Allow positioning */
         top: 50%; /* Center vertically */
-        left: 50%; /* Center horizontally */
+        left: 57%; /* Center horizontally */
         transform: translate(-50%, -50%); /* Adjust for the element's size */
     }
 
     .svg-launch svg {
-        width: 110%;
+        width: 80%;
         height: auto;
         display: block;
         filter: drop-shadow(0 0 20px #ffffff) drop-shadow(0 0 20px #33ccff);
