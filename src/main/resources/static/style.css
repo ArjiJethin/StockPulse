@@ -9,7 +9,7 @@
 
 :root {
     --bg-color: linear-gradient(90deg, #e2e2e2, #c9d6ff);
-    --dark-bg-color: linear-gradient(90deg, #181717, #1c1c1c);
+    --dark-bg-color: linear-gradient(90deg, #181717, #202020);
     --btn-color: linear-gradient(180deg, #4da1ff 0%, #6fcbff 50%, #aeebff 100%);
     --dark-btn-color: linear-gradient(to bottom, #0f0c29, #302b63);
 }
@@ -35,6 +35,21 @@ body.dark-mode {
     box-shadow: 0 0 40px rgba(16, 139, 211, 0.5);
     margin: 10px 20px;
     overflow: hidden;
+}
+
+.mobile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #2980b9, #6dd5fa, #e3f8ff);
+    z-index: 10; /* Ensure it appears above the container content */
+    display: none; /* Hide by default */
+}
+
+.dark-mode .mobile-overlay {
+    background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
 }
 
 .dark-mode .container {
@@ -254,7 +269,7 @@ form {
 
 .bulb {
     position: absolute;
-    z-index: 10;
+    z-index: 9;
     right: 10px;
     top: 10px;
     padding: 10px;
@@ -281,6 +296,52 @@ form {
     .container {
         height: calc(100vh - 100px);
         top: -15px;
+    }
+
+    .mobile-overlay {
+        display: block;
+    }
+
+    .mobile-overlay.fade-out {
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        pointer-events: none;
+    }
+
+    .svg-launch {
+        width: 100%;
+        max-width: 240px;
+        margin: 0 auto; /* Center horizontally */
+        position: absolute; /* Allow positioning */
+        top: 50%; /* Center vertically */
+        left: 50%; /* Center horizontally */
+        transform: translate(-50%, -50%); /* Adjust for the element's size */
+    }
+
+    .svg-launch svg {
+        width: 110%;
+        height: auto;
+        display: block;
+        filter: drop-shadow(0 0 20px #ffffff) drop-shadow(0 0 20px #33ccff);
+        transition: filter 0.4s ease-in-out;
+    }
+
+    .dark-mode .svg-launch svg {
+        filter: drop-shadow(0 0 3px #ffd700) drop-shadow(0 0 3px #ffa500);
+        transition: filter 0.5s ease-in-out; /* smoother fade out */
+    }
+
+    .svg-launch path {
+        stroke: #ffffff;
+        stroke-width: 6;
+        fill: none;
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        animation: draw 5s ease-in-out infinite;
+    }
+
+    .dark-mode .svg-launch path {
+        stroke: #ffd700;
     }
 
     .form-box {
@@ -408,10 +469,10 @@ form {
         filter: drop-shadow(0 0 20px #ffffff) drop-shadow(0 0 20px #33ccff);
     }
     50% {
-        filter: drop-shadow(0 0 30px #ffffff) drop-shadow(0 0 30px #33ccff);
+        filter: drop-shadow(0 0 60px #ffffff) drop-shadow(0 0 60px #33ccff);
     }
     100% {
-        filter: drop-shadow(0 0 40px #ffffff) drop-shadow(0 0 40px #33ccff);
+        filter: drop-shadow(0 0 100px #ffffff) drop-shadow(0 0 100px #33ccff);
     }
 }
 
