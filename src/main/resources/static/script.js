@@ -28,3 +28,20 @@ function darkMode() {
         localStorage.setItem("darkMode", "disabled");
     }
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+    const overlay = document.querySelector(".mobile-overlay");
+    const isMobile = window.innerWidth <= 650;
+
+    if (overlay && isMobile) {
+        // Match SVG animation duration (7s) + delay (optional)
+        setTimeout(() => {
+            overlay.classList.add("fade-out");
+
+            // Fully remove after fade transition ends
+            setTimeout(() => {
+                overlay.style.display = "none";
+            }, 1000); // match fade duration
+        }, 4000); // match animation loop length
+    }
+});
