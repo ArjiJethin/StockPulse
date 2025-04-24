@@ -10,6 +10,26 @@ loginBtn.addEventListener("click", () => {
     container.classList.remove("active"); // Remove "active" to switch back to login
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("registerForm");
+
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            if (form.checkValidity()) {
+                const username =
+                    document.getElementById("username")?.value || "";
+                localStorage.setItem("username", username);
+
+                window.location.href = "recoms.html";
+            } else {
+                form.reportValidity();
+            }
+        });
+    }
+});
+
 // Check localStorage and apply dark mode on page load
 const modeBtn = document.querySelector(".mode-btn");
 

@@ -138,7 +138,7 @@
         </div>
         <!-- Login Form -->
         <div class="form-box login">
-            <form action="">
+            <form id="loginForm" action="#">
                 <h1>Login</h1>
                 <div class="input-box">
                     <input type="text" placeholder="Username" required />
@@ -164,21 +164,21 @@
 
         <!-- Registration Form -->
         <div class="form-box register">
-            <form action="">
+            <form id="registerForm" action="">
                 <h1>Registration</h1>
                 <div class="input-box">
-                    <input type="text" placeholder="Username" required />
+                    <input type="text" id="username" placeholder="Username" required />
                     <i class="bx bxs-user"></i>
                 </div>
                 <div class="input-box">
-                    <input type="email" placeholder="Email" required />
+                    <input type="email" id="email" placeholder="Email" required />
                     <i class="bx bxs-envelope"></i>
                 </div>
                 <div class="input-box">
-                    <input type="password" placeholder="Password" required />
+                    <input type="password" id="password" placeholder="Password" required />
                     <i class="bx bxs-lock-alt"></i>
                 </div>
-                <button type="submit" class="btn">Register</button>
+                <button type="submit" id="startBtn" class="btn">Register</button>
                 <p>or register with Social Platform</p>
                 <div class="social-icons">
                     <a href="#"><i class="bx bxl-google"></i></a>
@@ -335,7 +335,8 @@
         </button>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
+
 </body>
 
 </html>

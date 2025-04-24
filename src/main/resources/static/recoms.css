@@ -1,0 +1,318 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+* {
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    margin: 0;
+    background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+body.dark-mode {
+    background: linear-gradient(90deg, #181717, #202020);
+}
+
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 1000px;
+    background: white;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(16, 139, 211, 0.5);
+}
+
+.dark-mode .container {
+    border: #24243e solid 1px;
+    box-shadow: 0 0 100px rgba(64, 0, 117, 0.834);
+}
+
+.sidebar {
+    position: relative;
+    width: 35%;
+    background: linear-gradient(0deg, #4da1ff 0%, #6fcbff 50%, #aeebff 100%);
+    box-shadow: 1px 2px 10px rgba(7, 172, 255, 0.86);
+
+    border-top-right-radius: 60px;
+    border-bottom-right-radius: 60px;
+
+    color: white;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.sidebar h1 {
+    font-size: 1.8em;
+    margin: 10px 0;
+}
+
+.dark-mode .sidebar {
+    background: linear-gradient(to top, #0f0c29, #302b63, #24243e);
+    box-shadow: 0 0 100px rgba(64, 0, 117, 0.65);
+}
+
+/*SVG CSS STARTS*/
+
+.svg-container {
+    width: 100%;
+    max-width: 220px;
+    margin: 0 auto; /* Center horizontally */
+    display: flex; /* Use Flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 220px; /* Add height to center vertically */
+}
+
+.svg-container svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 0 20px #ffffff) drop-shadow(0 0 20px #33ccff);
+    transition: filter 0.4s ease-in-out;
+}
+
+.svg-container path {
+    stroke: #ffffff;
+    stroke-width: 6;
+    fill: none;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: draw 7s ease-in-out infinite;
+}
+
+.dark-mode .svg-container svg {
+    filter: drop-shadow(0 0 3px #ffd700) drop-shadow(0 0 3px #ffa500);
+    transition: filter 0.5s ease-in-out; /* smoother fade out */
+}
+
+.dark-mode .svg-container path {
+    stroke: #ffd700;
+}
+
+@keyframes draw {
+    0% {
+        stroke-dashoffset: 1000;
+    }
+    50% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: 1000;
+    }
+}
+
+/*SVG CSS ENDS*/
+
+.bulb {
+    position: absolute; /* Position the bulb relative to the sidebar */
+    top: 10px; /* Move to the top */
+    left: 10px; /* Move to the left */
+    z-index: 9; /* Ensure it stays above other elements */
+    padding: 10px;
+    background: linear-gradient(180deg, #6fcbff 0%, #aeebff 100%);
+    border-radius: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    box-shadow: none;
+}
+
+.dark-mode .bulb {
+    background: linear-gradient(to bottom, #0f0c29, #24243e);
+    color: white;
+}
+
+.bulb i {
+    color: white;
+    font-size: 3vh;
+    transform: rotate(135deg);
+}
+
+.content {
+    width: 65%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.scroll-area {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: #f8faff;
+    border-radius: 16px;
+    padding: 16px;
+    border: 2px solid transparent; /* Always has a border */
+    position: relative;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+.card:hover {
+    background: #d1e4ff;
+}
+
+.dark-mode .card:hover {
+    background: linear-gradient(
+        to top,
+        rgba(15, 12, 41, 0.35),
+        rgba(48, 43, 99, 0.35),
+        rgba(36, 36, 62, 0.35)
+    );
+}
+
+.card.selected {
+    border-color: #c5e3ff; /* Only change color, not border size */
+}
+
+.icon-badge-wrapper {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.badge {
+    position: absolute;
+    top: -6px;
+    left: -30px;
+    background: white;
+    color: #444;
+    font-size: 0.65em;
+    padding: 3px 6px;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+
+    /* font-size: 0.65em;
+    background: white;
+    padding: 3px 6px;
+    border-radius: 6px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    margin-bottom: 10px; */
+}
+
+.circle-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #dde3ed;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.stock-name {
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.company {
+    font-size: 0.85em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+    padding: 8px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    margin-top: 10px;
+}
+
+.card-footer input[type="checkbox"] {
+    transform: scale(1.2);
+    accent-color: #499bea;
+    cursor: pointer;
+}
+
+.footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn {
+    padding: 10px 25px;
+    border: none;
+    background: linear-gradient(180deg, #4da1ff 0%, #6fcbff 50%, #aeebff 100%);
+    box-shadow: 1px 1px 8px rgba(7, 172, 255, 0.726);
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: 0.75s ease;
+}
+
+.dark-mode .btn {
+    background: linear-gradient(to bottom, #0f0c29, #302b63);
+    box-shadow: 0px 1px 10px rgba(64, 0, 117, 0.8);
+    color: white;
+}
+
+.dark-mode .btn:hover {
+    background: #0f0c29;
+}
+
+.btn:hover {
+    background: #6fcbff;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .svg-container {
+        display: none;
+    }
+
+    .sidebar {
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 60px;
+        border-bottom-left-radius: 60px;
+    }
+
+    .sidebar,
+    .content {
+        width: 100%;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    }
+}
