@@ -316,3 +316,115 @@ body.dark-mode {
         grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     }
 }
+
+/* Reponsive layout adjustments */
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar,
+    .content {
+        width: 100%;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    }
+}
+
+@media (max-width: 370px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        flex-direction: column;
+        width: calc(100% - 20px);
+        margin: 0 auto;
+        border-radius: 16px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar {
+        padding: 25px 15px;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 40px;
+        border-bottom-right-radius: 40px;
+    }
+
+    .sidebar h1 {
+        font-size: 1.4em;
+    }
+
+    .svg-container {
+        display: none;
+    }
+
+    .content {
+        padding: 20px 15px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    .card {
+        padding: 12px;
+    }
+
+    .stock-name {
+        font-size: 0.9em;
+    }
+
+    .company {
+        font-size: 0.75em;
+    }
+
+    .card-footer {
+        font-size: 0.75em;
+        padding: 6px 8px;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 0 10px;
+    }
+
+    .btn {
+        font-size: 0.9em;
+        padding: 10px 18px;
+        flex: 1 1 auto;
+        min-width: 120px;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .bulb {
+        top: 5px;
+        left: 5px;
+        padding: 5px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: #fff;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+    }
+
+    .bulb i {
+        font-size: 18px;
+    }
+}
