@@ -5,41 +5,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StockPulse Dashboard</title>
-    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 
 <body>
 
-    <div class="container">
-        <header class="header">
-            <div class="logo">📈 StockPulse</div>
-            <input type="text" class="search" placeholder="Search stocks...">
-            <div class="profile-icon">👤</div>
-        </header>
+    <div class="page-background">
+        <div class="app-card">
 
-        <section class="stock-summary" id="stock-summary">
-            <!-- Dynamic Stock Summary -->
-        </section>
+            <header class="header">
+                <div class="logo">
+                    <img src="https://img.icons8.com/ios-filled/50/4da1ff/combo-chart.png" alt="Logo" />
+                    <span>StockPulse</span>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search stocks...">
+                </div>
+                <div class="profile-icon">
+                    <img src="https://img.icons8.com/ios-glyphs/30/4da1ff/user--v1.png" alt="User">
+                </div>
+            </header>
 
-        <section class="main-section">
-            <div class="main-cards" id="main-cards">
-                <!-- Dynamic Main Cards (Tesla, Meta) -->
-            </div>
+            <section class="stock-summary" id="stock-summary">
+                <!-- Stock summary items injected here -->
+            </section>
 
-            <div class="insights">
-                <h3>Insights</h3>
-                <ul id="insight-list">
-                    <!-- Dynamic Insights -->
-                </ul>
-            </div>
-        </section>
+            <main class="main-content">
+                <div class="main-cards" id="main-cards">
+                    <!-- Tesla and Meta cards injected here -->
+                </div>
 
-        <section class="all-stocks" id="all-stocks">
-            <!-- Dynamic Small Stock Cards -->
-        </section>
+                <aside class="insights">
+                    <h2>Insights</h2>
+                    <ul id="insight-list">
+                        <!-- Insights injected here -->
+                    </ul>
+                </aside>
+            </main>
+
+            <section class="all-stocks-section">
+                <div class="all-stocks" id="all-stocks">
+                    <!-- All stocks cards injected here -->
+                </div>
+            </section>
+
+        </div>
     </div>
 
-    <script src="home.js"></script>
+    <script src="js/home.js"></script>
 </body>
 
 </html>

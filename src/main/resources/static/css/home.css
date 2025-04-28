@@ -1,0 +1,232 @@
+/* Global Styles */
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #e0f0ff, #f8fbff);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.page-background {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* App Card */
+.app-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    padding: 30px;
+    max-width: 1400px;
+    width: 100%;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 15px 25px;
+    border-radius: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo img {
+    width: 30px;
+    height: 30px;
+}
+
+.logo span {
+    font-size: 22px;
+    font-weight: 600;
+    color: #2a2a2a;
+}
+
+.search-bar {
+    flex: 1;
+    padding: 0 20px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 12px 10px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    color: #333;
+    font-weight: 500;
+}
+
+.profile-icon img {
+    width: 30px;
+    height: 30px;
+}
+
+/* Stock Summary (Auto-scroll) */
+.stock-summary {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px 0;
+    scroll-behavior: smooth;
+}
+
+.stock-summary::-webkit-scrollbar {
+    display: none;
+}
+
+.stock-item {
+    flex: 0 0 auto;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    padding: 10px 20px;
+    min-width: 140px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+}
+
+.stock-symbol {
+    font-weight: 600;
+    font-size: 16px;
+    color: #2a2a2a;
+}
+
+.stock-price {
+    font-size: 14px;
+    color: #555;
+}
+
+.stock-change {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.stock-change.green {
+    color: #28a745;
+}
+
+.stock-change.red {
+    color: #dc3545;
+}
+
+/* Main Content */
+.main-content {
+    display: flex;
+    gap: 20px;
+}
+
+/* Main Cards */
+.main-cards {
+    flex: 2;
+    display: flex;
+    gap: 20px;
+}
+
+.main-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    flex: 1;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.main-card img {
+    width: 60px;
+    margin-bottom: 10px;
+}
+
+.main-card h3 {
+    font-size: 20px;
+}
+
+.main-card .percentage {
+    font-size: 20px;
+    font-weight: 600;
+    color: green;
+    margin: 10px 0;
+}
+
+.details-btn {
+    padding: 10px 20px;
+    background-color: #4da1ff;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Insights */
+.insights {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.insights h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.insights ul {
+    list-style: none;
+    padding: 0;
+}
+
+.insights li {
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+/* All Stocks */
+.all-stocks-section {
+    margin-top: 10px;
+}
+
+.all-stocks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.small-stock-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 15px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
