@@ -44,6 +44,12 @@ const allStocksData = [
     { symbol: "AMD", company: "AMD", change: "+4.8%" },
     { symbol: "NFLX", company: "Netflix", change: "-3.1%" },
     { symbol: "NVDA", company: "NVIDIA", change: "+4.9%" },
+    { symbol: "AAPL", company: "Apple Inc.", change: "+1.2%" },
+    { symbol: "AMZN", company: "Amazon Inc.", change: "+5.3%" },
+    { symbol: "GOOGL", company: "Alphabet", change: "-0.9%" },
+    { symbol: "AMD", company: "AMD", change: "+4.8%" },
+    { symbol: "NFLX", company: "Netflix", change: "-3.1%" },
+    { symbol: "NVDA", company: "NVIDIA", change: "+4.9%" },
 ];
 
 // ======================
@@ -74,7 +80,6 @@ items.forEach((item) => {
     stockSummary.appendChild(clone);
 });
 
-// Auto-scroll logic
 setInterval(() => {
     stockSummary.scrollBy({ left: 1, behavior: "smooth" });
     if (stockSummary.scrollLeft >= stockSummary.scrollWidth / 2) {
@@ -94,23 +99,27 @@ mainCardsData.forEach((stock, index) => {
     const canvasId = `chart-${index}`;
 
     card.innerHTML = `
-        <div class="main-card-header">
-            <img src="${stock.logo}" alt="${stock.name}" class="main-logo">
-            <div class="main-text">
-                <h3>${stock.name}</h3>
-                <p class="subtitle">${stock.name}, Inc.</p>
-            </div>
+    <div class="main-card-header">
+        <div class="main-text">
+            <h3>${stock.name}</h3>
+            <p class="subtitle">${stock.name}, Inc.</p>
         </div>
-        <div class="main-card-body">
+    </div>
+    <div class="main-card-body">
+        <div class="main-logo-change">
+            <img src="${stock.logo}" alt="${stock.name}" class="main-logo">
             <div class="main-change ${
                 stock.percent.includes("+") ? "green" : "red"
             }">
                 ${stock.percent.includes("+") ? "▲" : "▼"} ${stock.percent}
             </div>
-            <canvas id="${canvasId}" width="100" height="30"></canvas>
         </div>
-        <button class="details-btn">Details</button>
-    `;
+        <div class="main-graph-container">
+            <canvas id="${canvasId}" width="240" height="100"></canvas>
+        </div>
+    </div>
+    <button class="details-btn">Details</button>
+`;
 
     mainCards.appendChild(card);
 
@@ -121,7 +130,7 @@ mainCardsData.forEach((stock, index) => {
             labels: ["1", "2", "3", "4", "5"],
             datasets: [
                 {
-                    data: [100, 102, 101, 110, 104],
+                    data: [100, 102, 101, 108, 104],
                     borderColor: "#4da1ff",
                     backgroundColor: "transparent",
                     tension: 0.4,
@@ -139,7 +148,7 @@ mainCardsData.forEach((stock, index) => {
 });
 
 // ======================
-// Tilt Effect Function
+// Tilt Effect
 // ======================
 
 function attachCardTiltEffect(selector) {
@@ -151,11 +160,9 @@ function attachCardTiltEffect(selector) {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
 
-            // ⬇️ Reduced tilt strength
             const rotateX = -(y - centerY) / 30;
             const rotateY = (x - centerX) / 30;
 
-            // ⬇️ Add smooth easing
             card.style.transition = "transform 0.1s ease-out";
             card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
         });
@@ -166,13 +173,11 @@ function attachCardTiltEffect(selector) {
         });
 
         card.addEventListener("mouseenter", () => {
-            // Optional: reset transition so mousemove overrides smoothly
             card.style.transition = "transform 0.2s ease";
         });
     });
 }
 
-// Attach the effect after cards exist
 attachCardTiltEffect(".main-card");
 
 // ======================
@@ -227,7 +232,7 @@ allStocksData.forEach((stock, index) => {
             labels: ["1", "2", "3", "4", "5"],
             datasets: [
                 {
-                    data: [20, 22, 21, 25, 24], // dummy data
+                    data: [20, 22, 21, 25, 24],
                     borderColor: "#4da1ff",
                     backgroundColor: "transparent",
                     tension: 0.4,
@@ -242,4 +247,76 @@ allStocksData.forEach((stock, index) => {
             maintainAspectRatio: false,
         },
     });
+});
+
+// Enable horizontal scroll
+const horizontalScrollContainer = document.querySelector(".all-stocks-scroll");
+
+let isScrolling = false;
+
+horizontalScrollContainer.addEventListener("wheel", function (e) {
+    if (e.deltaY === 0) return;
+    e.preventDefault();
+
+    const scrollSpeed = 2;
+
+    if (!isScrolling) {
+        isScrolling = true;
+        horizontalScrollContainer.scrollBy({
+            left: e.deltaY * scrollSpeed,
+            behavior: "smooth",
+        });
+
+        setTimeout(() => {
+            isScrolling = false;
+        }, 100);
+    }
+});
+
+// Mobile Search Toggle
+const searchBar = document.getElementById("mobile-search-bar");
+const searchToggle = document.getElementById("search-toggle-icon");
+const profileIcon = document.querySelector(".profile-icon");
+
+function expandSearchBar() {
+    searchBar.classList.add("expanded");
+    searchBar.classList.remove("collapsed");
+    profileIcon.style.display = "none";
+    document.getElementById("search-input").focus();
+}
+
+function collapseSearchBar() {
+    searchBar.classList.add("collapsed");
+    searchBar.classList.remove("expanded");
+    profileIcon.style.display = "";
+}
+
+// Attach listeners unconditionally
+searchToggle.addEventListener("click", (e) => {
+    // Only run this on mobile
+    if (window.innerWidth > 768) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (searchBar.classList.contains("collapsed")) {
+        expandSearchBar();
+    } else {
+        collapseSearchBar();
+    }
+});
+
+document.addEventListener("click", (e) => {
+    if (window.innerWidth > 768) return;
+
+    const isClickInsideSearch = searchBar.contains(e.target);
+    const isClickOnToggle = e.target === searchToggle;
+
+    if (
+        !isClickInsideSearch &&
+        !isClickOnToggle &&
+        searchBar.classList.contains("expanded")
+    ) {
+        collapseSearchBar();
+    }
 });

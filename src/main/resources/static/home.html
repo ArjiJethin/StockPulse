@@ -14,18 +14,19 @@
 
     <div class="page-background">
         <div class="app-card">
-
             <header class="header">
-                <div class="logo">
-                    <img src="https://img.icons8.com/ios-filled/50/4da1ff/combo-chart.png" alt="Logo" />
-                    <span>StockPulse</span>
-                </div>
-                <div class="search-bar">
-                    <i class='bx bx-search-alt'></i>
-                    <input type="text" placeholder="Search stocks...">
-                </div>
-                <div class="profile-icon">
-                    <i class='bx bx-user'></i>
+                <div class="head">
+                    <div class="logo">
+                        <img src="assets/Icons/Icon.png" alt="Logo" />
+                        <span>StockPulse</span>
+                    </div>
+                    <div class="search-bar collapsed" id="mobile-search-bar">
+                        <i class='bx bx-search-alt' id="search-toggle-icon"></i>
+                        <input type="text" placeholder="Search stocks..." id="search-input" />
+                    </div>
+                    <div class="profile-icon">
+                        <i class='bx bx-user'></i>
+                    </div>
                 </div>
             </header>
 
@@ -50,11 +51,12 @@
 
             </main>
 
-            <section class="all-stocks-section">
-                <div class="all-stocks" id="all-stocks">
-                    <!-- All stocks cards injected here -->
+            <div class="all-stocks-section">
+                <div class="all-stocks-scroll">
+                    <div id="all-stocks" class="all-stocks"></div>
                 </div>
-            </section>
+            </div>
+
 
         </div>
     </div>
