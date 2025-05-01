@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StockPulse Dashboard</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/home.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -19,20 +21,24 @@
                     <span>StockPulse</span>
                 </div>
                 <div class="search-bar">
+                    <i class='bx bx-search-alt'></i>
                     <input type="text" placeholder="Search stocks...">
                 </div>
                 <div class="profile-icon">
-                    <img src="https://img.icons8.com/ios-glyphs/30/4da1ff/user--v1.png" alt="User">
+                    <i class='bx bx-user'></i>
                 </div>
             </header>
 
-            <section class="stock-summary" id="stock-summary">
-                <!-- Stock summary items injected here -->
-            </section>
-
             <main class="main-content">
-                <div class="main-cards" id="main-cards">
-                    <!-- Tesla and Meta cards injected here -->
+
+                <div class="left-panel">
+                    <section class="stock-summary" id="stock-summary">
+                        <!-- Stock summary items injected here -->
+                    </section>
+
+                    <div class="main-cards" id="main-cards">
+                        <!-- Tesla and Meta cards injected here -->
+                    </div>
                 </div>
 
                 <aside class="insights">
@@ -41,6 +47,7 @@
                         <!-- Insights injected here -->
                     </ul>
                 </aside>
+
             </main>
 
             <section class="all-stocks-section">
