@@ -72,7 +72,7 @@ body.dark-mode {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding: 10px 30px;
     background: transparent;
     box-shadow: none;
@@ -175,6 +175,13 @@ body.dark-mode {
     font-size: 16px;
     color: #1f1f1f;
     width: 100%;
+}
+
+.profile-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    order: 3; /* Same as profile-icon used to be */
 }
 
 .profile-icon i {
@@ -638,8 +645,11 @@ body.dark-mode {
     }
 
     .head {
-        flex-wrap: wrap;
-        width: 100%;
+        display: flex;
+        flex-wrap: nowrap; /* Prevent wrapping */
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
     }
 
     .header {
@@ -647,6 +657,12 @@ body.dark-mode {
         align-items: center;
         justify-content: space-between;
         gap: 10px;
+    }
+
+    .profile-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
     }
 
     .bulb {
@@ -702,6 +718,22 @@ body.dark-mode {
         padding: 8px;
     }
 
+    .mode-btn {
+        order: 4;
+        margin-left: 8px;
+    }
+
+    .bulb {
+        display: block; /* Unhide the bulb in mobile */
+        order: 4; /* Place after profile-icon */
+        margin-left: 8px;
+    }
+
+    .mode-btn {
+        order: 4; /* Also ensure button follows proper order */
+        background: transparent;
+    }
+
     .left-panel {
         overflow: hidden;
         flex: 1;
@@ -749,4 +781,40 @@ body.dark-mode {
 }
 
 @media screen and (max-width: 370px) {
+    .header {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .header-left {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .header-right {
+        justify-content: center;
+        gap: 0.5rem;
+        padding-right: 0.5rem; /* Add this */
+    }
+
+    .header-right button {
+        padding: 0.4rem;
+        transform: translateX(-4px);
+    }
+
+    .mode-btn {
+        padding: 0.4rem;
+        transform: translateX(-16px);
+    }
+
+    .header-logo {
+        font-size: 1rem;
+    }
+
+    .header img {
+        width: 20px;
+        height: 20px;
+    }
 }

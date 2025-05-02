@@ -300,14 +300,14 @@ const profileIcon = document.querySelector(".profile-icon");
 function expandSearchBar() {
     searchBar.classList.add("expanded");
     searchBar.classList.remove("collapsed");
-    profileIcon.style.display = "none";
+    document.querySelector(".profile-group").style.display = "none";
     document.getElementById("search-input").focus();
 }
 
 function collapseSearchBar() {
     searchBar.classList.add("collapsed");
     searchBar.classList.remove("expanded");
-    profileIcon.style.display = "";
+    document.querySelector(".profile-group").style.display = "";
 }
 
 // Attach listeners unconditionally
