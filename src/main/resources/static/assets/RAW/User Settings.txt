@@ -1,0 +1,42 @@
+⚙️ Settings Section Overview
+1. Account Settings
+Email & Password Management
+
+2FA (Two-Factor Authentication) Toggle
+
+Linked Accounts (e.g., Google, Apple login)
+
+2. Notification Preferences
+Stock Alerts (Watchlist triggers, Price drops/spikes)
+
+News Updates
+
+Weekly Digest Emails
+
+3. UI & Theme Preferences
+Light / Dark / Auto Theme toggle
+
+Compact / Comfortable layout choice
+
+Font size scaling
+
+4. Privacy & Security
+Profile visibility (public/private)
+
+Activity status (online/hidden)
+
+Data export / delete account options
+
+5. Trading/Investment Settings
+Default currency
+
+Portfolio visibility (e.g., hide balances)
+
+Risk level selector (for suggestions or insights tuning)
+
+6. Custom Watchlist Settings
+Sort order preferences (e.g., by price change, market cap)
+
+Default chart type or time range
+
+Grouping stocks by category (tech, energy, etc.)

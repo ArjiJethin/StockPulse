@@ -1,0 +1,73 @@
+📈 Stock Detail Page – Layout Suggestion
+🔹 Top Section – Overview
+A compact summary with:
+
+Stock Name & Ticker (e.g., Tesla [TSLA])
+
+Current Price + Change (+1.52%, +$2.34)
+
+Market Status (Open/Closed, time)
+
+Quick Watchlist Button
+
+💡 Floating sticky header with price info on scroll for mobile ease.
+
+🔹 Left Side (Main Column)
+1. Interactive Chart (Full Width)
+Toggle: 1D, 1W, 1M, 6M, 1Y, Max
+
+Optional indicators: Volume, SMA/EMA
+
+Dark/light chart mode tied to site theme
+
+2. Stock Performance Insights
+Key Stats: Market Cap, P/E Ratio, EPS, Dividend Yield
+
+Today’s High/Low, 52-Week Range
+
+Volume & Avg Volume
+
+3. News & Events
+Latest news headlines relevant to the stock
+
+Upcoming earnings calls or dividend dates
+
+🔹 Right Side (Sidebar / or collapsible on mobile)
+4. Analyst Ratings
+Buy/Hold/Sell gauge or pie chart
+
+Average Price Target
+
+Ratings from major firms
+
+5. Social Sentiment
+Reddit/Twitter/News sentiment score
+
+User sentiment (if your platform collects votes)
+
+6. Related Stocks
+Other stocks in same sector
+
+"People also watched" carousel
+
+🔹 Bottom Section (Optional)
+7. Company Profile
+Description
+
+CEO, HQ, Founded Year
+
+Sector & Industry
+
+8. Financials
+Income Statement (mini)
+
+Balance Sheet
+
+Revenue/Earnings charts over quarters
+
+🌐 UX Tips:
+Use tabbed navigation or accordion-style cards on mobile.
+
+Keep fonts and cards in line with your homepage: clean, slightly rounded, soft shadows.
+
+Stick with clear spacing and layout grids to maintain that minimal-yet-rich StockPulse style.
