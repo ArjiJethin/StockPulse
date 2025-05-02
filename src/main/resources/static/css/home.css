@@ -42,7 +42,7 @@ body.dark-mode {
 
 .dark-mode .app-card {
     background: linear-gradient(to top, #0f0c29, #302b63, #24243e);
-    box-shadow: 0 0 100px rgba(64, 0, 117, 0.255);
+    box-shadow: 0 0 100px rgba(64, 0, 117, 0.755);
 }
 
 @media (min-width: 1100px) {
