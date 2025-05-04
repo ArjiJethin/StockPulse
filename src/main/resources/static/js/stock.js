@@ -1,3 +1,15 @@
+const companyNameMap = {
+    AAPL: "Apple Inc.",
+    AMZN: "Amazon Inc.",
+    GOOGL: "Alphabet",
+    AMD: "AMD",
+    NFLX: "Netflix",
+    NVDA: "NVIDIA",
+    TSLA: "Tesla",
+    META: "Meta",
+    // add more as needed
+};
+
 function getSymbol() {
     const params = new URLSearchParams(location.search);
     return params.get("symbol") || "TSLA";
@@ -14,7 +26,8 @@ function formatMillion(value) {
 document.addEventListener("DOMContentLoaded", () => {
     const symbol = getSymbol();
     document.getElementById("stock-symbol").innerText = symbol;
-    document.getElementById("company-name").innerText = "Tesla";
+    const name = companyNameMap[symbol.toUpperCase()] || symbol;
+    document.getElementById("company-name").textContent = name;
 
     const random = (min, max) => Math.random() * (max - min) + min;
 
@@ -42,7 +55,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const news = [
-        { title: "Market Update: Stocks Stage Rally", time: "2 hours ago" },
+        {
+            title: "Market Update: Stocks Stage Rally as Treasure Yields Decline",
+            time: "2 hours ago",
+        },
         {
             title: `${symbol} Recalls Nearly 3,900 Cybertrucks`,
             time: "4 hours ago",
@@ -53,23 +69,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const profileText =
         "Tesla, Inc. designs, manufactures, and sells electric vehicles and energy storage systems. Headquartered in Austin, Texas.";
 
-    // Populate page
+    // Populate UI
     document.getElementById("current-price").innerText = stats.price;
     document.getElementById("price-change").innerText = `${
         stats.change >= 0 ? "+" : ""
     }${stats.change} (${((stats.change / stats.price) * 100).toFixed(2)}%)`;
     document.getElementById("market-status").innerText = stats.marketStatus;
-
     document.getElementById("market-cap").innerText = stats.marketCap;
     document.getElementById("pe-ratio").innerText = stats.peRatio;
     document.getElementById("high-52w").innerText = stats.high52w;
     document.getElementById("volume").innerText = stats.volume;
-
     document.getElementById("revenue").innerText = financials.revenue;
     document.getElementById("net-income").innerText = financials.netIncome;
     document.getElementById("dividend-yield").innerText =
         financials.dividendYield;
-
     document.getElementById("company-profile").innerText = profileText;
 
     const newsList = document.getElementById("news-list");
@@ -80,50 +93,277 @@ document.addEventListener("DOMContentLoaded", () => {
         )
         .join("");
 
-    const ctx = document.getElementById("priceChart").getContext("2d");
-    new Chart(ctx, {
-        type: "line",
-        data: {
-            labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
-            datasets: [
-                {
-                    label: "Price",
-                    data: [
-                        random(1000, 1200),
-                        random(1050, 1250),
-                        random(1030, 1270),
-                        random(1080, 1300),
-                        stats.price,
-                    ],
-                    borderColor: "#007bff",
-                    fill: false,
-                    tension: 0.3,
-                },
-            ],
-        },
-        options: {
-            responsive: true,
-            plugins: { legend: { display: false } },
+    // Chart shadow plugin
+    Chart.register({
+        id: "lineShadow",
+        beforeDatasetsDraw(chart) {
+            const ctx = chart.ctx;
+            chart.data.datasets.forEach((dataset, index) => {
+                const meta = chart.getDatasetMeta(index);
+                if (meta.type === "line" && meta.dataset) {
+                    ctx.save();
+                    ctx.shadowColor = "rgba(15, 127, 255, 0.5)";
+                    ctx.shadowBlur = 20;
+                    ctx.shadowOffsetX = 0;
+                    ctx.shadowOffsetY = 4;
+                    meta.dataset.draw(ctx);
+                    ctx.restore();
+                }
+            });
         },
     });
 
-    const total = ratings.buy + ratings.hold + ratings.sell;
+    const ctx = document.getElementById("priceChart").getContext("2d");
+    const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+    gradient.addColorStop(0, "rgba(77, 161, 255, 0.6)");
+    gradient.addColorStop(1, "rgba(77, 161, 255, 0.05)");
+
+    let chart;
+
+    function generateChartData(range) {
+        let labels = [];
+        let data = [];
+        let points = 0;
+
+        switch (range) {
+            case "1D":
+                points = 6;
+                labels = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM"];
+                break;
+            case "1W":
+                points = 5;
+                labels = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+                break;
+            case "1M":
+                points = 20;
+                labels = Array.from(
+                    { length: points },
+                    (_, i) => `Day ${i + 1}`
+                );
+                break;
+            case "3M":
+                points = 12;
+                labels = ["Jan", "Feb", "Mar"];
+                break;
+            case "1Y":
+                points = 12;
+                labels = [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                ];
+                break;
+            case "All":
+                points = 10;
+                labels = Array.from(
+                    { length: points },
+                    (_, i) => `Y${2014 + i}`
+                );
+                break;
+            default:
+                points = 5;
+                labels = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+        }
+
+        data = Array.from({ length: points }, () =>
+            random(1000, 1300).toFixed(2)
+        );
+
+        return { labels, data };
+    }
+
+    function renderChart(range = "1W") {
+        const { labels, data } = generateChartData(range);
+
+        if (chart) chart.destroy();
+
+        chart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "Price",
+                        data: data,
+                        borderColor: "#4da1ff",
+                        backgroundColor: gradient,
+                        tension: 0.4,
+                        fill: true,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        enabled: false,
+                        external: function (context) {
+                            let tooltipEl = document.getElementById(
+                                "chartjs-glass-tooltip"
+                            );
+
+                            if (!tooltipEl) {
+                                tooltipEl = document.createElement("div");
+                                tooltipEl.id = "chartjs-glass-tooltip";
+                                document.body.appendChild(tooltipEl);
+                            }
+
+                            const tooltipModel = context.tooltip;
+                            if (tooltipModel.opacity === 0) {
+                                tooltipEl.style.opacity = 0;
+                                return;
+                            }
+
+                            const dataPoint = tooltipModel.dataPoints?.[0];
+                            const label = dataPoint?.label || "";
+                            const value = dataPoint?.parsed?.y?.toFixed(2);
+
+                            tooltipEl.innerHTML = `
+                                <div class="glass-tooltip">
+                                    <div class="tooltip-label">${label}</div>
+                                    <div class="tooltip-value">Price: $${value}</div>
+                                </div>
+                            `;
+
+                            const {
+                                offsetLeft: positionX,
+                                offsetTop: positionY,
+                            } = context.chart.canvas;
+                            tooltipEl.style.opacity = 1;
+                            tooltipEl.style.position = "absolute";
+                            tooltipEl.style.left =
+                                positionX + tooltipModel.caretX + "px";
+                            tooltipEl.style.top =
+                                positionY + tooltipModel.caretY + "px";
+                            tooltipEl.style.pointerEvents = "none";
+                        },
+                    },
+                },
+                interaction: {
+                    mode: "nearest",
+                    axis: "x",
+                    intersect: false,
+                },
+                scales: {
+                    x: { display: false },
+                    y: { display: false },
+                },
+                elements: {
+                    point: {
+                        radius: 0,
+                        hoverRadius: 6,
+                        backgroundColor: "#0f7fff",
+                    },
+                },
+            },
+        });
+    }
+
+    // Time range buttons
+    document.querySelectorAll(".range-buttons button").forEach((button) => {
+        button.addEventListener("click", () => {
+            const range = button.getAttribute("data-range");
+            renderChart(range);
+        });
+    });
+
+    // Initial render
+    renderChart("1W");
+
+    // Ratings chart
     const ratingsCtx = document.getElementById("ratingsChart").getContext("2d");
+    const totalRatings = ratings.buy + ratings.hold + ratings.sell;
+    const buyPercentage = ((ratings.buy / totalRatings) * 100).toFixed(0);
+
+    // Chart plugin to draw center text
+    const centerTextPlugin = {
+        id: "centerText",
+        afterDraw(chart) {
+            const { width } = chart;
+            const { ctx } = chart;
+            const centerX = width / 2;
+            const centerY = chart.height / 2;
+
+            ctx.save();
+            ctx.font = "bold 20px sans-serif";
+            ctx.fillStyle = "#333";
+            ctx.textAlign = "center";
+            ctx.fillText(`${buyPercentage}%`, centerX, centerY); // Just the percentage centered
+            ctx.restore();
+        },
+    };
+
+    // Chart
     new Chart(ratingsCtx, {
         type: "doughnut",
         data: {
             datasets: [
                 {
                     data: [ratings.buy, ratings.hold, ratings.sell],
-                    backgroundColor: ["#007bff", "#ccc", "#f44336"],
+                    backgroundColor: ["#2F80ED", "#E5E9F0", "#D1D5DB"], // blue + grays
+                    borderWidth: 0,
                 },
             ],
         },
         options: {
+            cutout: "65%",
             plugins: {
-                legend: { position: "bottom" },
+                legend: { display: false },
+                tooltip: {
+                    enabled: false,
+                    external: function (context) {
+                        let tooltipEl = document.getElementById(
+                            "chartjs-glass-tooltip"
+                        );
+
+                        if (!tooltipEl) {
+                            tooltipEl = document.createElement("div");
+                            tooltipEl.id = "chartjs-glass-tooltip";
+                            document.body.appendChild(tooltipEl);
+                        }
+
+                        const tooltipModel = context.tooltip;
+                        if (tooltipModel.opacity === 0) {
+                            tooltipEl.style.opacity = 0;
+                            return;
+                        }
+
+                        const dataPoint = tooltipModel.dataPoints?.[0];
+                        const label = ["Buy", "Hold", "Sell"][
+                            dataPoint.dataIndex
+                        ];
+                        const value = dataPoint.raw;
+
+                        tooltipEl.innerHTML = `
+                        <div class="glass-tooltip">
+                            <div class="tooltip-label">${label}</div>
+                            <div class="tooltip-value">${value}%</div>
+                        </div>
+                    `;
+
+                        const { offsetLeft: posX, offsetTop: posY } =
+                            context.chart.canvas;
+                        tooltipEl.style.opacity = 1;
+                        tooltipEl.style.position = "absolute";
+                        tooltipEl.style.left =
+                            posX + tooltipModel.caretX + "px";
+                        tooltipEl.style.top = posY + tooltipModel.caretY + "px";
+                        tooltipEl.style.pointerEvents = "none";
+                    },
+                },
             },
         },
+        plugins: [centerTextPlugin],
     });
 
     const ratingsBreakdown = document.getElementById("ratings-breakdown");

@@ -167,10 +167,10 @@ mainCardsData.forEach((stock, index) => {
 });
 
 // Attach click listener to "Details" buttons
-mainCards.querySelectorAll(".main-card .details-btn").forEach((btn, i) => {
-    btn.addEventListener("click", () => {
+mainCards.querySelectorAll(".main-card").forEach((card, i) => {
+    card.addEventListener("click", () => {
         const ticker = mainCardsData[i].ticker;
-        window.location.href = `stock.html?symbol=${ticker}`;
+        window.open(`stock.html?symbol=${ticker}`, "_blank"); // opens in new tab
     });
 });
 

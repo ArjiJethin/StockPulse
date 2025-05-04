@@ -20,23 +20,23 @@
                     </div>
                     <h3>Key Stats</h3>
                     <div class="stats-grid">
-                        <div><strong>Market Cap:</strong> <span id="market-cap">--</span></div>
-                        <div><strong>P/E Ratio:</strong> <span id="pe-ratio">--</span></div>
-                        <div><strong>52W High:</strong> <span id="high-52w">--</span></div>
-                        <div><strong>Volume:</strong> <span id="volume">--</span></div>
+                        <div><strong>Market Cap:</strong><br><span id="market-cap">--</span></div>
+                        <div><strong>P/E Ratio:</strong><br><span id="pe-ratio">--</span></div>
+                        <div><strong>52W High:</strong><br><span id="high-52w">--</span></div>
+                        <div><strong>Volume:</strong><br><span id="volume">--</span></div>
                     </div>
                 </div>
 
                 <div class="middle chart-section">
-                    <div class="time-buttons">
-                        <button class="active">1D</button>
-                        <button>5D</button>
-                        <button>1M</button>
-                        <button>6M</button>
-                        <button>1Y</button>
+                    <div class="range-buttons">
+                        <button data-range="1D">1D</button>
+                        <button data-range="1W">1W</button>
+                        <button data-range="1M">1M</button>
+                        <button data-range="3M">3M</button>
+                        <button data-range="1Y">1Y</button>
+                        <button data-range="All">All</button>
                     </div>
                     <canvas id="priceChart"></canvas>
-                    <h3>News</h3>
                     <ul id="news-list"></ul>
                 </div>
 
@@ -60,13 +60,16 @@
                     </div>
                 </div>
             </div>
-            <div class="">
-                <h3>Company Profile</h3>
-                <div class="profile">
+            <div class="company-card">
+                <div class="company-info">
                     <img src="https://via.placeholder.com/50" alt="Company Logo" />
-                    <p id="company-profile">Loading…</p>
+                    <div class="text-content">
+                        <h4>Company Profile</h4>
+                        <p id="company-profile">Loading…</p>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 

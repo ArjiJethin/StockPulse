@@ -16,20 +16,33 @@ body {
 .container {
     max-width: 1200px;
     margin: auto;
-    padding-top: 60px;
+    padding-top: 30px;
+}
+
+.left {
+    padding: 25px 20px;
+}
+
+.left > h3,
+strong,
+span {
+    font-weight: 500;
+    font-size: 2.25vh;
+}
+
+.right {
+    padding: 25px 0px;
+}
+
+.right > h3 {
+    padding-bottom: 20px;
 }
 
 .stock-detail-page {
     background: #fff;
-    border-radius: 16px;
+    border-radius: 30px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
     padding: 30px;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .stock-name h1 {
@@ -40,6 +53,11 @@ body {
 .stock-name p {
     color: #555;
     margin-top: 4px;
+    padding-bottom: 10px;
+}
+
+.stock-price {
+    padding: 0px 0px 25px 0px;
 }
 
 .stock-price h2 {
@@ -54,7 +72,11 @@ body {
 
 .content {
     display: flex;
-    gap: 40px;
+    gap: 0;
+}
+
+.stats-grid > div {
+    padding-top: 15px;
 }
 
 .left,
@@ -66,51 +88,95 @@ body {
     background: #fff;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    min-width: 700px;
 }
 
-.time-buttons {
+.middle.chart-section {
+    flex: 2;
+    margin-left: 0; /* 👈 remove the gap */
+    margin-top: 20px;
+}
+
+.range-buttons {
     display: flex;
     justify-content: flex-start;
-    gap: 10px;
+    gap: 18px;
     margin-bottom: 15px;
 }
 
-.time-buttons button {
-    padding: 6px 14px;
-    border: 1px solid #ccc;
-    background: #f2f2f2;
-    border-radius: 20px;
+.range-buttons button {
+    background: transparent;
+    border: none;
+    color: #6e7b8a;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background 0.2s ease;
-    font-size: 14px;
+    transition: color 0.2s ease;
 }
 
-.time-buttons button.active {
-    background: #007bff;
-    color: #fff;
-    border-color: #007bff;
+.range-buttons button.active {
+    color: #007bff;
+    font-weight: 600;
+}
+
+.range-buttons button:hover {
+    color: #007bff;
 }
 
 ul#news-list {
-    padding-left: 20px;
+    list-style: none;
+    padding: 30px 15px;
     margin-bottom: 30px;
+    font-size: 2.5vh;
+    font-weight: 300;
 }
 
-.profile {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 10px;
+.company-card {
+    background: #f2f6fb;
+    padding: 16px;
+    border-radius: 16px;
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
+    margin-top: 0px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        sans-serif;
+    color: #1c1e21;
+}
+
+.company-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.company-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+}
+
+.company-info h4 {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+}
+
+.company-info p {
+    margin: 0;
+    line-height: 1.5;
+    color: #444;
+    font-size: 14px;
+    max-width: 90%;
 }
 
 .ratings-section {
     display: flex;
-    align-items: center; /* Align both vertically */
-    justify-content: flex-start;
-    gap: 20px; /* Controls the spacing between chart and list */
+    align-items: center;
+    gap: 12px; /* adjust as needed */
+    padding-bottom: 25px;
 }
 
 #ratings-breakdown {
@@ -121,9 +187,166 @@ ul#news-list {
     line-height: 1.6;
 }
 
+#ratings-breakdown li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
 #ratingsChart {
     width: 120px !important;
     height: 120px !important;
     display: inline-block;
     vertical-align: middle;
+}
+
+#priceChart {
+    width: 90% !important;
+    height: 400px !important;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#chartjs-glass-tooltip .glass-tooltip {
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: #0f7fff;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid #0f7fff;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(15, 127, 255, 0.3);
+    font-size: 14px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.tooltip-label {
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 2px;
+}
+
+.tooltip-value {
+    font-size: 14px;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        padding: 20px;
+    }
+
+    .content {
+        flex-direction: column;
+    }
+
+    .middle.chart-section {
+        min-width: 100%;
+        margin-left: 0;
+    }
+
+    #priceChart {
+        width: 100% !important;
+        height: 300px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+
+    .stock-name h1#company-name {
+        font-size: 32px;
+    }
+
+    .stock-name p#stock-symbol {
+        font-size: 24px;
+        color: #666;
+    }
+
+    .stock-price {
+        padding-left: 24px;
+    }
+
+    .stock-price h2 {
+        font-size: 28px;
+    }
+
+    .stats-grid {
+        padding: 0 25px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px 16px;
+        margin-top: 10px;
+    }
+
+    .stats-grid div {
+        font-size: 14px;
+    }
+
+    .range-buttons {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .company-info {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .company-info img {
+        width: 64px;
+        height: 64px;
+    }
+
+    .chart-section {
+        padding: 16px;
+    }
+
+    .right > h3 {
+        padding-left: 24px;
+    }
+
+    .right .stock-price {
+        margin-top: 0;
+        margin-left: 20px;
+        padding-top: 0;
+    }
+
+    .ratings-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    #ratingsChart {
+        width: 100px !important;
+        height: 100px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .stock-name h1,
+    .stock-price h2,
+    .left > h3,
+    .right > h3 {
+        font-size: 20px;
+    }
+
+    ul#news-list {
+        font-size: 2vh;
+        padding: 20px 10px;
+    }
+
+    .range-buttons button {
+        font-size: 14px;
+        padding: 3px 6px;
+    }
+
+    .stock-detail-page {
+        padding: 20px;
+    }
 }
