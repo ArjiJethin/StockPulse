@@ -1,3 +1,20 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const darkModeState = localStorage.getItem("darkMode");
+    if (darkModeState === "enabled") {
+        document.body.classList.add("dark-mode");
+    }
+});
+
+function darkMode() {
+    document.body.classList.toggle("dark-mode");
+    localStorage.setItem(
+        "darkMode",
+        document.body.classList.contains("dark-mode") ? "enabled" : "disabled"
+    );
+    renderChart(currentRange); // Re-render chart with theme
+    renderRatingsChart(); // Re-render doughnut chart with theme
+}
+
 const companyNameMap = {
     AAPL: "Apple Inc.",
     AMZN: "Amazon Inc.",
@@ -7,7 +24,6 @@ const companyNameMap = {
     NVDA: "NVIDIA",
     TSLA: "Tesla",
     META: "Meta",
-    // add more as needed
 };
 
 function getSymbol() {
@@ -31,7 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const random = (min, max) => Math.random() * (max - min) + min;
 
-    // Dummy data
     const stats = {
         price: random(1100, 1300).toFixed(2),
         change: random(-15, 15).toFixed(2),
@@ -56,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const news = [
         {
-            title: "Market Update: Stocks Stage Rally as Treasure Yields Decline",
+            title: "Market Update: Stocks Rally as Yields Fall",
             time: "2 hours ago",
         },
         {
@@ -67,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     const profileText =
-        "Tesla, Inc. designs, manufactures, and sells electric vehicles and energy storage systems. Headquartered in Austin, Texas.";
+        "Tesla, Inc. designs, manufactures, and sells electric vehicles and energy storage systems.";
 
     // Populate UI
     document.getElementById("current-price").innerText = stats.price;
@@ -93,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
         )
         .join("");
 
-    // Chart shadow plugin
     Chart.register({
         id: "lineShadow",
         beforeDatasetsDraw(chart) {
@@ -113,40 +127,45 @@ document.addEventListener("DOMContentLoaded", () => {
         },
     });
 
-    const ctx = document.getElementById("priceChart").getContext("2d");
-    const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-    gradient.addColorStop(0, "rgba(77, 161, 255, 0.6)");
-    gradient.addColorStop(1, "rgba(77, 161, 255, 0.05)");
-
     let chart;
+    let currentRange = "1W";
+
+    function getChartColors() {
+        const isDark = document.body.classList.contains("dark-mode");
+        return {
+            borderColor: isDark ? "#ffd700" : "#4da1ff",
+            gradientFrom: isDark
+                ? "rgba(255, 165, 0, 0.25)"
+                : "rgba(77, 161, 255, 0.6)",
+            gradientTo: isDark
+                ? "rgba(255, 165, 0, 0.03)"
+                : "rgba(77, 161, 255, 0.05)",
+        };
+    }
 
     function generateChartData(range) {
-        let labels = [];
-        let data = [];
-        let points = 0;
+        let labels = [],
+            data = [],
+            points = 0;
 
         switch (range) {
             case "1D":
-                points = 6;
                 labels = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM"];
+                points = 6;
                 break;
             case "1W":
-                points = 5;
                 labels = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+                points = 5;
                 break;
             case "1M":
+                labels = Array.from({ length: 20 }, (_, i) => `Day ${i + 1}`);
                 points = 20;
-                labels = Array.from(
-                    { length: points },
-                    (_, i) => `Day ${i + 1}`
-                );
                 break;
             case "3M":
-                points = 12;
                 labels = ["Jan", "Feb", "Mar"];
+                points = 12;
                 break;
             case "1Y":
-                points = 12;
                 labels = [
                     "Jan",
                     "Feb",
@@ -161,40 +180,44 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Nov",
                     "Dec",
                 ];
+                points = 12;
                 break;
             case "All":
+                labels = Array.from({ length: 10 }, (_, i) => `Y${2014 + i}`);
                 points = 10;
-                labels = Array.from(
-                    { length: points },
-                    (_, i) => `Y${2014 + i}`
-                );
                 break;
             default:
-                points = 5;
                 labels = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+                points = 5;
         }
 
         data = Array.from({ length: points }, () =>
             random(1000, 1300).toFixed(2)
         );
-
         return { labels, data };
     }
 
     function renderChart(range = "1W") {
+        currentRange = range;
         const { labels, data } = generateChartData(range);
+
+        const ctx = document.getElementById("priceChart").getContext("2d");
+        const { borderColor, gradientFrom, gradientTo } = getChartColors();
+        const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+        gradient.addColorStop(0, gradientFrom);
+        gradient.addColorStop(1, gradientTo);
 
         if (chart) chart.destroy();
 
         chart = new Chart(ctx, {
             type: "line",
             data: {
-                labels: labels,
+                labels,
                 datasets: [
                     {
                         label: "Price",
-                        data: data,
-                        borderColor: "#4da1ff",
+                        data,
+                        borderColor,
                         backgroundColor: gradient,
                         tension: 0.4,
                         fill: true,
@@ -207,11 +230,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     legend: { display: false },
                     tooltip: {
                         enabled: false,
-                        external: function (context) {
+                        external(context) {
                             let tooltipEl = document.getElementById(
                                 "chartjs-glass-tooltip"
                             );
-
                             if (!tooltipEl) {
                                 tooltipEl = document.createElement("div");
                                 tooltipEl.id = "chartjs-glass-tooltip";
@@ -269,107 +291,107 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Time range buttons
     document.querySelectorAll(".range-buttons button").forEach((button) => {
-        button.addEventListener("click", () => {
-            const range = button.getAttribute("data-range");
-            renderChart(range);
-        });
+        button.addEventListener("click", () =>
+            renderChart(button.getAttribute("data-range"))
+        );
     });
 
-    // Initial render
-    renderChart("1W");
+    function renderRatingsChart() {
+        const ratingsCtx = document
+            .getElementById("ratingsChart")
+            .getContext("2d");
+        const totalRatings = ratings.buy + ratings.hold + ratings.sell;
+        const buyPercentage = ((ratings.buy / totalRatings) * 100).toFixed(0);
+        const isDark = document.body.classList.contains("dark-mode");
 
-    // Ratings chart
-    const ratingsCtx = document.getElementById("ratingsChart").getContext("2d");
-    const totalRatings = ratings.buy + ratings.hold + ratings.sell;
-    const buyPercentage = ((ratings.buy / totalRatings) * 100).toFixed(0);
+        new Chart(ratingsCtx, {
+            type: "doughnut",
+            data: {
+                datasets: [
+                    {
+                        data: [ratings.buy, ratings.hold, ratings.sell],
+                        backgroundColor: isDark
+                            ? ["#ffd700", "#f0dc6ab0", "#f0dc6a5b"]
+                            : ["#2F80ED", "#E5E9F0", "#D1D5DB"],
+                        borderWidth: 0,
+                    },
+                ],
+            },
+            options: {
+                cutout: "65%",
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        enabled: false,
+                        external(context) {
+                            let tooltipEl = document.getElementById(
+                                "chartjs-glass-tooltip"
+                            );
+                            if (!tooltipEl) {
+                                tooltipEl = document.createElement("div");
+                                tooltipEl.id = "chartjs-glass-tooltip";
+                                document.body.appendChild(tooltipEl);
+                            }
 
-    // Chart plugin to draw center text
-    const centerTextPlugin = {
-        id: "centerText",
-        afterDraw(chart) {
-            const { width } = chart;
-            const { ctx } = chart;
-            const centerX = width / 2;
-            const centerY = chart.height / 2;
+                            const tooltipModel = context.tooltip;
+                            if (tooltipModel.opacity === 0) {
+                                tooltipEl.style.opacity = 0;
+                                return;
+                            }
 
-            ctx.save();
-            ctx.font = "bold 20px sans-serif";
-            ctx.fillStyle = "#333";
-            ctx.textAlign = "center";
-            ctx.fillText(`${buyPercentage}%`, centerX, centerY); // Just the percentage centered
-            ctx.restore();
-        },
-    };
+                            const dataPoint = tooltipModel.dataPoints?.[0];
+                            const label = ["Buy", "Hold", "Sell"][
+                                dataPoint.dataIndex
+                            ];
+                            const value = dataPoint.raw;
 
-    // Chart
-    new Chart(ratingsCtx, {
-        type: "doughnut",
-        data: {
-            datasets: [
-                {
-                    data: [ratings.buy, ratings.hold, ratings.sell],
-                    backgroundColor: ["#2F80ED", "#E5E9F0", "#D1D5DB"], // blue + grays
-                    borderWidth: 0,
-                },
-            ],
-        },
-        options: {
-            cutout: "65%",
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    enabled: false,
-                    external: function (context) {
-                        let tooltipEl = document.getElementById(
-                            "chartjs-glass-tooltip"
-                        );
+                            tooltipEl.innerHTML = `
+                                <div class="glass-tooltip">
+                                    <div class="tooltip-label">${label}</div>
+                                    <div class="tooltip-value">${value}%</div>
+                                </div>
+                            `;
 
-                        if (!tooltipEl) {
-                            tooltipEl = document.createElement("div");
-                            tooltipEl.id = "chartjs-glass-tooltip";
-                            document.body.appendChild(tooltipEl);
-                        }
-
-                        const tooltipModel = context.tooltip;
-                        if (tooltipModel.opacity === 0) {
-                            tooltipEl.style.opacity = 0;
-                            return;
-                        }
-
-                        const dataPoint = tooltipModel.dataPoints?.[0];
-                        const label = ["Buy", "Hold", "Sell"][
-                            dataPoint.dataIndex
-                        ];
-                        const value = dataPoint.raw;
-
-                        tooltipEl.innerHTML = `
-                        <div class="glass-tooltip">
-                            <div class="tooltip-label">${label}</div>
-                            <div class="tooltip-value">${value}%</div>
-                        </div>
-                    `;
-
-                        const { offsetLeft: posX, offsetTop: posY } =
-                            context.chart.canvas;
-                        tooltipEl.style.opacity = 1;
-                        tooltipEl.style.position = "absolute";
-                        tooltipEl.style.left =
-                            posX + tooltipModel.caretX + "px";
-                        tooltipEl.style.top = posY + tooltipModel.caretY + "px";
-                        tooltipEl.style.pointerEvents = "none";
+                            const { offsetLeft: posX, offsetTop: posY } =
+                                context.chart.canvas;
+                            tooltipEl.style.opacity = 1;
+                            tooltipEl.style.position = "absolute";
+                            tooltipEl.style.left =
+                                posX + tooltipModel.caretX + "px";
+                            tooltipEl.style.top =
+                                posY + tooltipModel.caretY + "px";
+                            tooltipEl.style.pointerEvents = "none";
+                        },
                     },
                 },
             },
-        },
-        plugins: [centerTextPlugin],
-    });
+            plugins: [
+                {
+                    id: "centerText",
+                    afterDraw(chart) {
+                        const { width } = chart;
+                        const { ctx } = chart;
+                        const centerX = width / 2;
+                        const centerY = chart.height / 2;
+                        ctx.save();
+                        ctx.font = "bold 20px sans-serif";
+                        ctx.fillStyle = isDark ? "#ffd700" : "#333";
+                        ctx.textAlign = "center";
+                        ctx.fillText(`${buyPercentage}%`, centerX, centerY);
+                        ctx.restore();
+                    },
+                },
+            ],
+        });
 
-    const ratingsBreakdown = document.getElementById("ratings-breakdown");
-    ratingsBreakdown.innerHTML = `
-      <li>Buy: ${ratings.buy}%</li>
-      <li>Hold: ${ratings.hold}%</li>
-      <li>Sell: ${ratings.sell}%</li>
-    `;
+        document.getElementById("ratings-breakdown").innerHTML = `
+            <li>Buy: ${ratings.buy}%</li>
+            <li>Hold: ${ratings.hold}%</li>
+            <li>Sell: ${ratings.sell}%</li>
+        `;
+    }
+
+    renderChart("1W");
+    renderRatingsChart();
 });

@@ -8,9 +8,12 @@
 }
 
 body {
-    font-family: "Segoe UI", sans-serif;
-    background-color: #f0f4f8;
+    background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
     margin: 0;
+}
+
+body.dark-mode {
+    background: linear-gradient(90deg, #181717, #202020);
 }
 
 .container {
@@ -19,8 +22,21 @@ body {
     padding-top: 30px;
 }
 
+.card.stock-detail-page {
+    box-shadow: 0 0 40px rgba(16, 139, 211, 0.75);
+}
+
+.dark-mode .card.stock-detail-page {
+    background: linear-gradient(to top, #0f0c29, #302b63, #24243e);
+    box-shadow: 0 0 100px rgba(64, 0, 117, 0.755);
+}
+
 .left {
     padding: 25px 20px;
+}
+
+.dark-mode .left {
+    color: white;
 }
 
 .left > h3,
@@ -32,6 +48,10 @@ span {
 
 .right {
     padding: 25px 0px;
+}
+
+.dark-mode .right {
+    color: white;
 }
 
 .right > h3 {
@@ -54,6 +74,10 @@ span {
     color: #555;
     margin-top: 4px;
     padding-bottom: 10px;
+}
+
+.dark-mode .stock-name P {
+    color: #acabab;
 }
 
 .stock-price {
@@ -89,6 +113,11 @@ span {
     padding: 20px;
     border-radius: 12px;
     min-width: 700px;
+}
+
+.dark-mode .chart-section {
+    color: white;
+    background: transparent;
 }
 
 .middle.chart-section {
@@ -145,6 +174,11 @@ ul#news-list {
     color: #1c1e21;
 }
 
+.dark-mode .company-card {
+    background: transparent;
+    color: white;
+}
+
 .company-info {
     display: flex;
     align-items: flex-start;
@@ -164,12 +198,20 @@ ul#news-list {
     color: #000;
 }
 
+.dark-mode .company-info h4 {
+    color: #ffffff;
+}
+
 .company-info p {
     margin: 0;
     line-height: 1.5;
     color: #444;
     font-size: 14px;
     max-width: 90%;
+}
+
+.dark-mode .company-info p {
+    color: #acabab;
 }
 
 .ratings-section {
@@ -222,6 +264,13 @@ ul#news-list {
     text-align: center;
 }
 
+.dark-mode #chartjs-glass-tooltip .glass-tooltip {
+    color: #ffd700;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #ffd700;
+    box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
+}
+
 .tooltip-label {
     font-weight: bold;
     font-size: 13px;
@@ -253,6 +302,10 @@ ul#news-list {
 }
 
 @media (max-width: 768px) {
+    .card.stock-detail-page {
+        box-shadow: 0 0 40px rgba(16, 139, 211, 0.55);
+    }
+
     .container {
         width: 100%;
     }
@@ -329,6 +382,10 @@ ul#news-list {
 }
 
 @media (max-width: 480px) {
+    .container {
+        width: 100%;
+    }
+
     .stock-name h1,
     .stock-price h2,
     .left > h3,
