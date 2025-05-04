@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stock Details</title>
+    <link rel="stylesheet" href="css/stock.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card stock-detail-page">
+            <div class="content">
+                <div class="left">
+                    <div class="stock-name">
+                        <h1 id="company-name">Loading…</h1>
+                        <p id="stock-symbol">SYM</p>
+                    </div>
+                    <h3>Key Stats</h3>
+                    <div class="stats-grid">
+                        <div><strong>Market Cap:</strong> <span id="market-cap">--</span></div>
+                        <div><strong>P/E Ratio:</strong> <span id="pe-ratio">--</span></div>
+                        <div><strong>52W High:</strong> <span id="high-52w">--</span></div>
+                        <div><strong>Volume:</strong> <span id="volume">--</span></div>
+                    </div>
+                </div>
+
+                <div class="middle chart-section">
+                    <div class="time-buttons">
+                        <button class="active">1D</button>
+                        <button>5D</button>
+                        <button>1M</button>
+                        <button>6M</button>
+                        <button>1Y</button>
+                    </div>
+                    <canvas id="priceChart"></canvas>
+                    <h3>News</h3>
+                    <ul id="news-list"></ul>
+                </div>
+
+                <div class="right">
+                    <div class="stock-price">
+                        <h2 id="current-price">--</h2>
+                        <p id="price-change">--</p>
+                        <p id="market-status">--</p>
+                    </div>
+                    <h3>Analysis Ratings</h3>
+                    <div class="ratings-section">
+                        <canvas id="ratingsChart" width="180" height="180"></canvas>
+                        <ul id="ratings-breakdown"></ul>
+                    </div>
+
+                    <h3>Financials</h3>
+                    <div class="stats-grid">
+                        <div><strong>Revenue:</strong> <span id="revenue">--</span></div>
+                        <div><strong>Net Income:</strong> <span id="net-income">--</span></div>
+                        <div><strong>Dividend Yield:</strong> <span id="dividend-yield">--</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <h3>Company Profile</h3>
+                <div class="profile">
+                    <img src="https://via.placeholder.com/50" alt="Company Logo" />
+                    <p id="company-profile">Loading…</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/stock.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,129 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #f0f4f8;
+    margin: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding-top: 60px;
+}
+
+.stock-detail-page {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stock-name h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.stock-name p {
+    color: #555;
+    margin-top: 4px;
+}
+
+.stock-price h2 {
+    margin: 0;
+    font-size: 36px;
+}
+
+.stock-price p {
+    margin: 4px 0;
+    color: #4caf50;
+}
+
+.content {
+    display: flex;
+    gap: 40px;
+}
+
+.left,
+.right {
+    flex: 1;
+}
+
+.chart-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+}
+
+.time-buttons {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.time-buttons button {
+    padding: 6px 14px;
+    border: 1px solid #ccc;
+    background: #f2f2f2;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-size: 14px;
+}
+
+.time-buttons button.active {
+    background: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+ul#news-list {
+    padding-left: 20px;
+    margin-bottom: 30px;
+}
+
+.profile {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ratings-section {
+    display: flex;
+    align-items: center; /* Align both vertically */
+    justify-content: flex-start;
+    gap: 20px; /* Controls the spacing between chart and list */
+}
+
+#ratings-breakdown {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+#ratingsChart {
+    width: 120px !important;
+    height: 120px !important;
+    display: inline-block;
+    vertical-align: middle;
+}

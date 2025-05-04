@@ -1,0 +1,106 @@
+body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #f0f4f8;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.stock-detail-page {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.stock-name h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.stock-name p {
+    color: #555;
+    margin-top: 4px;
+}
+
+.stock-price h2 {
+    margin: 0;
+    font-size: 36px;
+}
+
+.stock-price p {
+    margin: 4px 0;
+    color: #4caf50;
+}
+
+.content {
+    display: flex;
+    gap: 40px;
+}
+
+.left,
+.right {
+    flex: 1;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.chart-section {
+    margin-bottom: 30px;
+}
+
+.time-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.time-buttons button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.time-buttons .active {
+    background: #007bff;
+    color: white;
+}
+
+ul#news-list {
+    padding-left: 20px;
+    margin-bottom: 30px;
+}
+
+.profile {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#ratings-breakdown {
+    list-style: none;
+    padding-left: 0;
+}

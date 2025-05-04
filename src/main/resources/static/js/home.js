@@ -166,6 +166,22 @@ mainCardsData.forEach((stock, index) => {
     });
 });
 
+// Attach click listener to "Details" buttons
+mainCards.querySelectorAll(".main-card .details-btn").forEach((btn, i) => {
+    btn.addEventListener("click", () => {
+        const ticker = mainCardsData[i].ticker;
+        window.location.href = `stock.html?symbol=${ticker}`;
+    });
+});
+
+// Attach click listeners to small stock cards
+document.querySelectorAll(".small-stock-card").forEach((card, i) => {
+    card.addEventListener("click", () => {
+        const ticker = allStocksData[i].symbol;
+        window.location.href = `stock.html?symbol=${ticker}`;
+    });
+});
+
 // ======================
 // Tilt Effect
 // ======================
@@ -225,8 +241,14 @@ insightsData.forEach((insight) => {
 const allStocks = document.getElementById("all-stocks");
 
 allStocksData.forEach((stock, index) => {
+    const cardLink = document.createElement("a");
+    cardLink.href = `stock.html?symbol=${stock.symbol}`;
+    cardLink.target = "_blank"; // Open in new tab
+    cardLink.className = "small-stock-card-link"; // Optional wrapper class
+
     const card = document.createElement("div");
     card.className = "small-stock-card";
+
     const canvasId = `small-chart-${index}`;
 
     card.innerHTML = `
@@ -242,7 +264,8 @@ allStocksData.forEach((stock, index) => {
         </div>
     `;
 
-    allStocks.appendChild(card);
+    cardLink.appendChild(card);
+    allStocks.appendChild(cardLink);
 
     const ctx = document.getElementById(canvasId).getContext("2d");
     new Chart(ctx, {
