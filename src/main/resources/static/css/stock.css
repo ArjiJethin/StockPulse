@@ -145,13 +145,26 @@ span {
     transition: color 0.2s ease;
 }
 
+.dark-mode .range-buttons button {
+    color: #d2d2d2;
+}
+
 .range-buttons button.active {
     color: #007bff;
     font-weight: 600;
 }
 
+.dark-mode .range-buttons button.active {
+    color: #ffd700;
+    font-weight: 600;
+}
+
 .range-buttons button:hover {
     color: #007bff;
+}
+
+.dark-mode .range-buttons button:hover {
+    color: #ffd700;
 }
 
 ul#news-list {
