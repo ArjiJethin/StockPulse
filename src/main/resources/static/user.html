@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StockPulse User Dashboard</title>
+    <link rel="stylesheet" href="css/user.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+    <div class="card-wrapper">
+        <div class="container">
+            <aside class="sidebar">
+                <h2>StockPulse</h2>
+                <div class="user">
+                    <img src="https://i.imgur.com/6VBx3io.png" alt="avatar" class="avatar" />
+                    <h3>John Doe</h3>
+                </div>
+                <nav class="nav">
+                    <button class="active"><span>📊</span> Portfolio</button>
+                    <button><span>⭐</span> Watchlist</button>
+                    <button><span>⚙️</span> Settings</button>
+                </nav>
+            </aside>
+
+            <main class="main-content">
+                <div class="top-row">
+                    <div class="card performance">
+                        <h3>Stock Performance</h3>
+                        <canvas id="performanceChart" width="300" height="100"></canvas>
+                        <p class="change positive">+3.4%</p>
+                    </div>
+                    <div class="card activity">
+                        <h3>Recent Activity</h3>
+                        <ul>
+                            <li>Bought 10 shares of TSLA <span>2 hours ago</span></li>
+                            <li>Added NVDA to watchlist <span>4 hours ago</span></li>
+                            <li>Owned 15 shares of TSLA <span>1 day ago</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <section>
+                    <h3>Portfolio</h3>
+                    <div class="card-grid" id="portfolio">
+                        <!-- Portfolio stocks populated by JS -->
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Watchlist</h3>
+                    <div class="card-grid" id="watchlist">
+                        <!-- Watchlist stocks populated by JS -->
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="js/user.js"></script>
+</body>
+
+</html>
