@@ -1,106 +1,168 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: "Segoe UI", sans-serif;
-    background-color: #f0f4f8;
-    margin: 0;
-    padding: 20px;
+    background-color: #f9f9f9;
+    color: #222;
+}
+
+.card-wrapper {
+    background: white;
+    margin: 2rem;
+    padding: 1rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
 }
 
 .container {
-    max-width: 1200px;
-    margin: auto;
+    display: flex;
+    min-height: 100vh;
 }
 
-.stock-detail-page {
+.sidebar {
     background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-    padding: 30px;
+    width: 250px;
+    padding: 2rem 1rem;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
 }
 
-.header {
+.sidebar h2 {
+    margin-bottom: 2rem;
+}
+
+.user {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.avatar {
+    width: 60px;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+}
+
+.nav button {
+    display: block;
+    background: none;
+    border: none;
+    padding: 0.8rem 1rem;
+    width: 100%;
+    text-align: left;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: background 0.2s;
+}
+
+.nav button.active,
+.nav button:hover {
+    background-color: #f0f0f0;
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+}
+
+.top-row {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 20px;
-    margin-bottom: 30px;
+    gap: 2rem;
+    margin-bottom: 2rem;
 }
 
-.stock-name h1 {
-    margin: 0;
-    font-size: 32px;
-}
-
-.stock-name p {
-    color: #555;
-    margin-top: 4px;
-}
-
-.stock-price h2 {
-    margin: 0;
-    font-size: 36px;
-}
-
-.stock-price p {
-    margin: 4px 0;
-    color: #4caf50;
-}
-
-.content {
-    display: flex;
-    gap: 40px;
-}
-
-.left,
-.right {
+.card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     flex: 1;
 }
 
-.stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px 20px;
-    margin-bottom: 20px;
+.performance canvas {
+    width: 100%;
+    height: 100px;
+    margin-top: 1rem;
+    background: #e6f0ff;
+    border-radius: 8px;
 }
 
-.chart-section {
-    margin-bottom: 30px;
+#performanceChart {
+    background-color: transparent;
 }
 
-.time-buttons {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
+.card-grid canvas {
+    background: transparent;
 }
 
-.time-buttons button {
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    background: #f7f7f7;
-    cursor: pointer;
-    border-radius: 6px;
-}
-
-.time-buttons .active {
-    background: #007bff;
-    color: white;
-}
-
-ul#news-list {
-    padding-left: 20px;
-    margin-bottom: 30px;
-}
-
-.profile {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-#ratings-breakdown {
+.activity ul {
     list-style: none;
-    padding-left: 0;
+    margin-top: 1rem;
+}
+
+.activity li {
+    margin-bottom: 0.8rem;
+}
+
+.activity span {
+    display: block;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.stock-card {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.stock-card .ticker {
+    font-weight: bold;
+}
+
+.mini-chart {
+    height: 40px;
+    margin: 0.5rem 0;
+    background: #e6f0ff;
+    border-radius: 8px;
+}
+
+.change {
+    font-weight: bold;
+}
+
+.positive {
+    color: green;
+}
+
+.negative {
+    color: red;
+}
+
+.watchlist {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.watchlist span {
+    background: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }

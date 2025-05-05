@@ -4,73 +4,61 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Stock Details</title>
+    <title>StockPulse User Dashboard</title>
     <link rel="stylesheet" href="css/dummy.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
-    <div class="container">
-        <div class="card stock-detail-page">
-            <div class="header">
-                <div class="stock-name">
-                    <h1 id="company-name">Loading…</h1>
-                    <p id="stock-symbol">SYM</p>
+    <div class="card-wrapper">
+        <div class="container">
+            <aside class="sidebar">
+                <h2>StockPulse</h2>
+                <div class="user">
+                    <img src="https://i.imgur.com/6VBx3io.png" alt="avatar" class="avatar" />
+                    <h3>John Doe</h3>
                 </div>
-                <div class="stock-price">
-                    <h2 id="current-price">--</h2>
-                    <p id="price-change">--</p>
-                    <p id="market-status">--</p>
-                </div>
-            </div>
+                <nav class="nav">
+                    <button class="active"><span>📊</span> Portfolio</button>
+                    <button><span>⭐</span> Watchlist</button>
+                    <button><span>⚙️</span> Settings</button>
+                </nav>
+            </aside>
 
-            <div class="content">
-                <div class="left">
-                    <h3>Key Stats</h3>
-                    <div class="stats-grid">
-                        <div><strong>Market Cap:</strong> <span id="market-cap">--</span></div>
-                        <div><strong>P/E Ratio:</strong> <span id="pe-ratio">--</span></div>
-                        <div><strong>52W High:</strong> <span id="high-52w">--</span></div>
-                        <div><strong>Volume:</strong> <span id="volume">--</span></div>
+            <main class="main-content">
+                <div class="top-row">
+                    <div class="card performance">
+                        <h3>Stock Performance</h3>
+                        <canvas id="performanceChart" width="300" height="100"></canvas>
+                        <p class="change positive">+3.4%</p>
                     </div>
-
-                    <div class="chart-section">
-                        <div class="time-buttons">
-                            <button class="active">1D</button>
-                            <button>5D</button>
-                            <button>1M</button>
-                            <button>6M</button>
-                            <button>1Y</button>
-                        </div>
-                        <canvas id="priceChart"></canvas>
-                    </div>
-
-                    <h3>News</h3>
-                    <ul id="news-list"></ul>
-
-                    <h3>Company Profile</h3>
-                    <div class="profile">
-                        <img src="https://via.placeholder.com/50" alt="Company Logo" />
-                        <p id="company-profile">Loading…</p>
+                    <div class="card activity">
+                        <h3>Recent Activity</h3>
+                        <ul>
+                            <li>Bought 10 shares of TSLA <span>2 hours ago</span></li>
+                            <li>Added NVDA to watchlist <span>4 hours ago</span></li>
+                            <li>Owned 15 shares of TSLA <span>1 day ago</span></li>
+                        </ul>
                     </div>
                 </div>
 
-                <div class="right">
-                    <h3>Analyst Ratings</h3>
-                    <canvas id="ratingsChart" width="150" height="150"></canvas>
-                    <ul id="ratings-breakdown"></ul>
-
-                    <h3>Financials</h3>
-                    <div class="stats-grid">
-                        <div><strong>Revenue:</strong> <span id="revenue">--</span></div>
-                        <div><strong>Net Income:</strong> <span id="net-income">--</span></div>
-                        <div><strong>Dividend Yield:</strong> <span id="dividend-yield">--</span></div>
+                <section>
+                    <h3>Portfolio</h3>
+                    <div class="card-grid" id="portfolio">
+                        <!-- Portfolio stocks populated by JS -->
                     </div>
-                </div>
-            </div>
+                </section>
+
+                <section>
+                    <h3>Watchlist</h3>
+                    <div class="card-grid" id="watchlist">
+                        <!-- Watchlist stocks populated by JS -->
+                    </div>
+                </section>
+            </main>
         </div>
     </div>
-
     <script src="js/dummy.js"></script>
 </body>
 

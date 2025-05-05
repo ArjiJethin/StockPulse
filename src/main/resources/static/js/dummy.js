@@ -1,136 +1,101 @@
-function getSymbol() {
-    const params = new URLSearchParams(location.search);
-    return params.get("symbol") || "TSLA";
-}
-
-function formatBillion(value) {
-    return `${(value / 1e9).toFixed(2)}B`;
-}
-
-function formatMillion(value) {
-    return `${(value / 1e6).toFixed(2)}M`;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    const symbol = getSymbol();
-    document.getElementById("stock-symbol").innerText = symbol;
-    document.getElementById("company-name").innerText = "Tesla";
-
-    const random = (min, max) => Math.random() * (max - min) + min;
-
-    // Dummy data
-    const stats = {
-        price: random(1100, 1300).toFixed(2),
-        change: random(-15, 15).toFixed(2),
-        marketStatus: "Market open",
-        marketCap: formatBillion(random(500e9, 900e9)),
-        peRatio: random(20, 70).toFixed(2),
-        high52w: random(250, 400).toFixed(2),
-        volume: formatMillion(random(20e6, 150e6)),
-    };
-
-    const financials = {
-        revenue: formatBillion(random(60e9, 120e9)),
-        netIncome: formatBillion(random(5e9, 25e9)),
-        dividendYield: `${random(0.5, 3).toFixed(2)}%`,
-    };
-
-    const ratings = {
-        buy: Math.floor(random(40, 70)),
-        hold: Math.floor(random(20, 40)),
-        sell: Math.floor(random(5, 15)),
-    };
-
-    const news = [
-        { title: "Market Update: Stocks Stage Rally", time: "2 hours ago" },
-        {
-            title: `${symbol} Recalls Nearly 3,900 Cybertrucks`,
-            time: "4 hours ago",
-        },
-        { title: "5 Things to Know Before Markets Open", time: "7 hours ago" },
-    ];
-
-    const profileText =
-        "Tesla, Inc. designs, manufactures, and sells electric vehicles and energy storage systems. Headquartered in Austin, Texas.";
-
-    // Populate page
-    document.getElementById("current-price").innerText = stats.price;
-    document.getElementById("price-change").innerText = `${
-        stats.change >= 0 ? "+" : ""
-    }${stats.change} (${((stats.change / stats.price) * 100).toFixed(2)}%)`;
-    document.getElementById("market-status").innerText = stats.marketStatus;
-
-    document.getElementById("market-cap").innerText = stats.marketCap;
-    document.getElementById("pe-ratio").innerText = stats.peRatio;
-    document.getElementById("high-52w").innerText = stats.high52w;
-    document.getElementById("volume").innerText = stats.volume;
-
-    document.getElementById("revenue").innerText = financials.revenue;
-    document.getElementById("net-income").innerText = financials.netIncome;
-    document.getElementById("dividend-yield").innerText =
-        financials.dividendYield;
-
-    document.getElementById("company-profile").innerText = profileText;
-
-    const newsList = document.getElementById("news-list");
-    newsList.innerHTML = news
-        .map(
-            (n) =>
-                `<li><strong>${n.title}</strong><br/><small>${n.time}</small></li>`
-        )
-        .join("");
-
-    const ctx = document.getElementById("priceChart").getContext("2d");
-    new Chart(ctx, {
+// Helper to draw chart.js styled line chart
+function drawChartJS(canvas, data = [], color = "#2a73f5") {
+    new Chart(canvas, {
         type: "line",
         data: {
-            labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+            labels: Array(data.length).fill(""),
             datasets: [
                 {
-                    label: "Price",
-                    data: [
-                        random(1000, 1200),
-                        random(1050, 1250),
-                        random(1030, 1270),
-                        random(1080, 1300),
-                        stats.price,
-                    ],
-                    borderColor: "#007bff",
-                    fill: false,
-                    tension: 0.3,
+                    data: data,
+                    borderColor: color,
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: "rgba(42, 115, 245, 0.1)",
+                    pointRadius: 0,
+                    borderWidth: 2,
                 },
             ],
         },
         options: {
-            responsive: true,
-            plugins: { legend: { display: false } },
-        },
-    });
-
-    const total = ratings.buy + ratings.hold + ratings.sell;
-    const ratingsCtx = document.getElementById("ratingsChart").getContext("2d");
-    new Chart(ratingsCtx, {
-        type: "doughnut",
-        data: {
-            labels: ["Buy", "Hold", "Sell"],
-            datasets: [
-                {
-                    data: [ratings.buy, ratings.hold, ratings.sell],
-                    backgroundColor: ["#007bff", "#ccc", "#f44336"],
-                },
-            ],
-        },
-        options: {
+            responsive: false,
+            maintainAspectRatio: false,
             plugins: {
-                legend: { position: "bottom" },
+                legend: { display: false },
+            },
+            scales: {
+                x: {
+                    display: false,
+                },
+                y: {
+                    display: false,
+                },
             },
         },
     });
+}
 
-    const ratingsBreakdown = document.getElementById("ratings-breakdown");
-    ratingsBreakdown.innerHTML = `
-      <li>Buy: ${ratings.buy}%</li>
-      <li>Hold: ${ratings.hold}%</li>
-      <li>Sell: ${ratings.sell}%</li>
-    `;
+// Draw main performance chart
+const perfCanvas = document.getElementById("performanceChart");
+drawChartJS(perfCanvas, randomChartData());
+
+// Dummy data
+const portfolioData = [
+    { ticker: "AAPL", name: "Apple Inc.", change: +1.2 },
+    { ticker: "MSFT", name: "Microsoft Corp.", change: +6.2 },
+    { ticker: "GOOGL", name: "Alphabet Inc.", change: -0.2 },
+    { ticker: "TSLA", name: "Tesla, Inc.", change: +1.7 },
+    { ticker: "NVDA", name: "NVIDIA Corp.", change: -0.99 },
+    { ticker: "AMD", name: "AMD", change: -2.11 },
+];
+
+const watchlistData = [
+    { ticker: "AMZN", name: "Amazon.com", change: +0.7 },
+    { ticker: "META", name: "Meta Platforms", change: -1.1 },
+    { ticker: "JNJ", name: "Johnson & Johnson", change: +0.2 },
+    { ticker: "DIS", name: "Walt Disney", change: -0.4 },
+    { ticker: "AMD", name: "AMD", change: +1.9 },
+];
+
+// Utility: random array for chart
+function randomChartData() {
+    return Array.from({ length: 8 }, () => Math.floor(Math.random() * 10) + 1);
+}
+
+// Create card
+function createStockCard(stock) {
+    const card = document.createElement("div");
+    card.className = "stock-card";
+
+    const ticker = document.createElement("p");
+    ticker.className = "ticker";
+    ticker.textContent = stock.ticker;
+
+    const name = document.createElement("p");
+    name.textContent = stock.name;
+
+    const canvas = document.createElement("canvas");
+    canvas.className = "mini-chart";
+    canvas.width = 140;
+    canvas.height = 40;
+
+    const change = document.createElement("p");
+    change.className = "change";
+    change.classList.add(stock.change >= 0 ? "positive" : "negative");
+    change.textContent = `${stock.change >= 0 ? "+" : ""}${stock.change}%`;
+
+    card.append(ticker, name, canvas, change);
+    drawChartJS(canvas, randomChartData());
+
+    return card;
+}
+
+// Render portfolio and watchlist
+const portfolioContainer = document.getElementById("portfolio");
+portfolioData.forEach((stock) => {
+    portfolioContainer.appendChild(createStockCard(stock));
+});
+
+const watchlistContainer = document.getElementById("watchlist");
+watchlistData.forEach((stock) => {
+    watchlistContainer.appendChild(createStockCard(stock));
 });
