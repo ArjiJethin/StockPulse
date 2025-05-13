@@ -1,4 +1,11 @@
 // =====================
+// Globals
+// =====================
+let mainChartData;
+const chartInstances = [];
+const chartMap = new Map();
+
+// =====================
 // Apply Dark Mode if Enabled
 // =====================
 document.addEventListener("DOMContentLoaded", () => {
@@ -20,12 +27,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.body.classList.remove("dark-mode");
                 localStorage.setItem("darkMode", "disabled");
             }
+            redrawAllCharts();
         });
     }
+
+    // Draw main performance chart with correct theme
+    const perfCanvas = document.getElementById("performanceChart");
+    mainChartData = randomChartData();
+    drawChartJS(perfCanvas, mainChartData);
+    chartInstances.push({ canvas: perfCanvas, data: mainChartData });
+
+    // Render portfolio and watchlist
+    const portfolioContainer = document.getElementById("portfolio");
+    portfolioData.forEach((stock) => {
+        portfolioContainer.appendChild(createStockCard(stock));
+    });
+
+    const watchlistContainer = document.getElementById("watchlist");
+    watchlistData.forEach((stock) => {
+        watchlistContainer.appendChild(createStockCard(stock));
+    });
 });
 
 // =====================
-// Manual Toggle Function (same as other pages)
+// Manual Toggle Function
 // =====================
 function darkMode() {
     document.body.classList.toggle("dark-mode");
@@ -41,21 +66,36 @@ function darkMode() {
             ? "dark"
             : "light";
     }
+
+    redrawAllCharts();
 }
 
-// Helper to draw chart.js styled line chart
-function drawChartJS(canvas, data = [], color = "#2a73f5") {
-    new Chart(canvas, {
+// =====================
+// Chart Handling
+// =====================
+function drawChartJS(canvas, data = []) {
+    const isDark = document.body.classList.contains("dark-mode");
+
+    const borderColor = isDark ? "#ffd700" : "#2a73f5";
+    const backgroundColor = isDark
+        ? "rgba(255, 165, 0, 0.1)"
+        : "rgba(42, 115, 245, 0.1)";
+
+    if (chartMap.has(canvas)) {
+        chartMap.get(canvas).destroy();
+    }
+
+    const chart = new Chart(canvas, {
         type: "line",
         data: {
             labels: Array(data.length).fill(""),
             datasets: [
                 {
-                    data: data,
-                    borderColor: color,
+                    data,
+                    borderColor,
                     tension: 0.4,
                     fill: true,
-                    backgroundColor: "rgba(42, 115, 245, 0.1)",
+                    backgroundColor,
                     pointRadius: 0,
                     borderWidth: 2,
                 },
@@ -68,22 +108,31 @@ function drawChartJS(canvas, data = [], color = "#2a73f5") {
                 legend: { display: false },
             },
             scales: {
-                x: {
-                    display: false,
-                },
-                y: {
-                    display: false,
-                },
+                x: { display: false },
+                y: { display: false },
             },
         },
     });
+
+    chartMap.set(canvas, chart);
 }
 
-// Draw main performance chart
-const perfCanvas = document.getElementById("performanceChart");
-drawChartJS(perfCanvas, randomChartData());
+function redrawAllCharts() {
+    chartInstances.forEach(({ canvas, data }) => {
+        drawChartJS(canvas, data);
+    });
+}
 
-// Dummy data
+// =====================
+// Utility: random chart data
+// =====================
+function randomChartData() {
+    return Array.from({ length: 8 }, () => Math.floor(Math.random() * 10) + 1);
+}
+
+// =====================
+// Dummy stock data
+// =====================
 const portfolioData = [
     { ticker: "AAPL", name: "Apple Inc.", change: +1.2 },
     { ticker: "MSFT", name: "Microsoft Corp.", change: +6.2 },
@@ -101,12 +150,9 @@ const watchlistData = [
     { ticker: "AMD", name: "AMD", change: +1.9 },
 ];
 
-// Utility: random array for chart
-function randomChartData() {
-    return Array.from({ length: 8 }, () => Math.floor(Math.random() * 10) + 1);
-}
-
-// Create card
+// =====================
+// Stock card generator
+// =====================
 function createStockCard(stock) {
     const card = document.createElement("div");
     card.className = "stock-card";
@@ -129,28 +175,19 @@ function createStockCard(stock) {
     change.textContent = `${stock.change >= 0 ? "+" : ""}${stock.change}%`;
 
     card.append(ticker, name, canvas, change);
-    drawChartJS(canvas, randomChartData());
+
+    const chartData = randomChartData();
+    drawChartJS(canvas, chartData);
+    chartInstances.push({ canvas, data: chartData });
 
     return card;
 }
 
-// Render portfolio and watchlist
-const portfolioContainer = document.getElementById("portfolio");
-portfolioData.forEach((stock) => {
-    portfolioContainer.appendChild(createStockCard(stock));
-});
-
-const watchlistContainer = document.getElementById("watchlist");
-watchlistData.forEach((stock) => {
-    watchlistContainer.appendChild(createStockCard(stock));
-});
-
+// =====================
+// Navigation
+// =====================
 function goHome() {
-    window.location.href = "home.html"; // Change this to your actual home page
-}
-
-function scrollToSection(id) {
-    document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+    window.location.href = "home.html";
 }
 
 function scrollToSection(id) {
