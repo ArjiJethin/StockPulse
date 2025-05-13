@@ -75,8 +75,8 @@ function createStockCard(stock) {
 
     const canvas = document.createElement("canvas");
     canvas.className = "mini-chart";
-    canvas.width = 140;
-    canvas.height = 40;
+    canvas.style.width = "100%";
+    canvas.style.height = "40px";
 
     const change = document.createElement("p");
     change.className = "change";
@@ -99,3 +99,11 @@ const watchlistContainer = document.getElementById("watchlist");
 watchlistData.forEach((stock) => {
     watchlistContainer.appendChild(createStockCard(stock));
 });
+
+function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+}
+
+function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+}

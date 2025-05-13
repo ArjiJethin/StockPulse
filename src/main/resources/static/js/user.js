@@ -1,3 +1,48 @@
+// =====================
+// Apply Dark Mode if Enabled
+// =====================
+document.addEventListener("DOMContentLoaded", () => {
+    const darkModeState = localStorage.getItem("darkMode");
+    if (darkModeState === "enabled") {
+        document.body.classList.add("dark-mode");
+    }
+
+    const themeSelect = document.getElementById("theme-select");
+    if (themeSelect) {
+        themeSelect.value = darkModeState === "enabled" ? "dark" : "light";
+
+        themeSelect.addEventListener("change", () => {
+            const selected = themeSelect.value;
+            if (selected === "dark") {
+                document.body.classList.add("dark-mode");
+                localStorage.setItem("darkMode", "enabled");
+            } else {
+                document.body.classList.remove("dark-mode");
+                localStorage.setItem("darkMode", "disabled");
+            }
+        });
+    }
+});
+
+// =====================
+// Manual Toggle Function (same as other pages)
+// =====================
+function darkMode() {
+    document.body.classList.toggle("dark-mode");
+    if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("darkMode", "enabled");
+    } else {
+        localStorage.setItem("darkMode", "disabled");
+    }
+
+    const themeSelect = document.getElementById("theme-select");
+    if (themeSelect) {
+        themeSelect.value = document.body.classList.contains("dark-mode")
+            ? "dark"
+            : "light";
+    }
+}
+
 // Helper to draw chart.js styled line chart
 function drawChartJS(canvas, data = [], color = "#2a73f5") {
     new Chart(canvas, {
@@ -75,8 +120,8 @@ function createStockCard(stock) {
 
     const canvas = document.createElement("canvas");
     canvas.className = "mini-chart";
-    canvas.width = 140;
-    canvas.height = 40;
+    canvas.style.width = "100%";
+    canvas.style.height = "40px";
 
     const change = document.createElement("p");
     change.className = "change";
@@ -99,3 +144,15 @@ const watchlistContainer = document.getElementById("watchlist");
 watchlistData.forEach((stock) => {
     watchlistContainer.appendChild(createStockCard(stock));
 });
+
+function goHome() {
+    window.location.href = "home.html"; // Change this to your actual home page
+}
+
+function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+}
+
+function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+}

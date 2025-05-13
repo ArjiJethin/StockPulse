@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>StockPulse User Dashboard</title>
     <link rel="stylesheet" href="css/user.css" />
+    <link rel="Icon" href="assets/Icons/Icon.png" type="image/png" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 
 <body>
@@ -16,21 +17,32 @@
             <aside class="sidebar">
                 <h2>StockPulse</h2>
                 <div class="user">
-                    <img src="https://i.imgur.com/6VBx3io.png" alt="avatar" class="avatar" />
+                    <img src="https://i.pravatar.cc/100" alt="avatar" class="avatar" />
                     <h3>John Doe</h3>
                 </div>
                 <nav class="nav">
-                    <button class="active"><span>📊</span> Portfolio</button>
-                    <button><span>⭐</span> Watchlist</button>
-                    <button><span>⚙️</span> Settings</button>
+                    <button onclick="scrollToSection('portfolio-section')">
+                        <i class='bx bx-bar-chart-alt-2'></i> Portfolio
+                    </button>
+                    <button onclick="scrollToSection('watchlist-section')">
+                        <i class='bx bx-list-ul'></i> Watchlist
+                    </button>
+                    <button onclick="scrollToSection('settings-section')">
+                        <i class='bx bx-cog'></i> Settings
+                    </button>
                 </nav>
+
+                <button class="back-button" onclick="goHome()">
+                    <i class='bx bx-home'></i> Home
+                </button>
+
             </aside>
 
             <main class="main-content">
                 <div class="top-row">
                     <div class="card performance">
                         <h3>Stock Performance</h3>
-                        <canvas id="performanceChart" width="300" height="100"></canvas>
+                        <canvas id="performanceChart"></canvas>
                         <p class="change positive">+3.4%</p>
                     </div>
                     <div class="card activity">
@@ -43,19 +55,120 @@
                     </div>
                 </div>
 
-                <section>
+                <section id="portfolio-section">
                     <h3>Portfolio</h3>
                     <div class="card-grid" id="portfolio">
                         <!-- Portfolio stocks populated by JS -->
                     </div>
                 </section>
 
-                <section>
+                <section id="watchlist-section">
                     <h3>Watchlist</h3>
                     <div class="card-grid" id="watchlist">
                         <!-- Watchlist stocks populated by JS -->
                     </div>
                 </section>
+
+                <section id="settings-section" class="card scrollable-section">
+                    <h3>⚙️ Settings</h3>
+                    <nav class="settings-nav">
+                        <button onclick="scrollToSection('account-settings')">Account</button>
+                        <button onclick="scrollToSection('notification-preferences')">Notifications</button>
+                        <button onclick="scrollToSection('ui-theme-preferences')">UI / Theme</button>
+                        <button onclick="scrollToSection('privacy-security')">Privacy</button>
+                        <button onclick="scrollToSection('trading-settings')">Trading</button>
+                        <button onclick="scrollToSection('watchlist-settings')">Watchlist</button>
+                    </nav>
+
+                    <div id="account-settings" class="settings-subsection">
+                        <h4>1. Account Settings</h4>
+                        <label>Email & Password Management</label><br />
+                        <button>Change Email</button>
+                        <button>Change Password</button><br /><br />
+                        <label><input type="checkbox" /> Enable Two-Factor Authentication (2FA)</label><br />
+                        <label><input type="checkbox" /> Link Google Account</label><br />
+                        <label><input type="checkbox" /> Link Apple Account</label>
+                    </div>
+
+                    <div id="notification-preferences" class="settings-subsection">
+                        <h4>2. Notification Preferences</h4>
+                        <label><input type="checkbox" /> Stock Alerts (Price movement, Watchlist)</label><br />
+                        <label><input type="checkbox" /> News Updates</label><br />
+                        <label><input type="checkbox" /> Weekly Digest Emails</label>
+                    </div>
+
+                    <div id="ui-theme-preferences" class="settings-subsection">
+                        <h4>3. UI & Theme Preferences</h4>
+                        <label>Theme:
+                            <select id="theme-select">
+                                <option value="light">Light</option>
+                                <option value="dark">Dark</option>
+                                <option value="auto">Auto</option>
+                            </select>
+                        </label>
+                        <br />
+                        <label>Layout:
+                            <select>
+                                <option>Compact</option>
+                                <option>Comfortable</option>
+                            </select>
+                        </label><br />
+                        <label>Font Size:
+                            <input type="range" min="12" max="24" value="16" />
+                        </label>
+                    </div>
+
+                    <div id="privacy-security" class="settings-subsection">
+                        <h4>4. Privacy & Security</h4>
+                        <label><input type="checkbox" /> Profile visibility: Public</label><br />
+                        <label><input type="checkbox" /> Activity status: Online</label><br />
+                        <button>Export Data</button>
+                        <button>Delete Account</button>
+                    </div>
+
+                    <div id="trading-settings" class="settings-subsection">
+                        <h4>5. Trading / Investment Settings</h4>
+                        <label>Default Currency:
+                            <select>
+                                <option>USD</option>
+                                <option>EUR</option>
+                                <option>GBP</option>
+                            </select>
+                        </label><br />
+                        <label><input type="checkbox" /> Hide Portfolio Balances</label><br />
+                        <label>Risk Level:
+                            <select>
+                                <option>Low</option>
+                                <option>Medium</option>
+                                <option>High</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div id="watchlist-settings" class="settings-subsection">
+                        <h4>6. Custom Watchlist Settings</h4>
+                        <label>Sort Order:
+                            <select>
+                                <option>Price Change</option>
+                                <option>Market Cap</option>
+                            </select>
+                        </label><br />
+                        <label>Default Chart Type:
+                            <select>
+                                <option>Line</option>
+                                <option>Candlestick</option>
+                            </select>
+                        </label><br />
+                        <label><input type="checkbox" /> Group by Category (Tech, Energy, etc.)</label>
+                    </div>
+                </section>
+
+                <script>
+                    function scrollToSection(id) {
+                        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+                    }
+                </script>
+
             </main>
         </div>
     </div>
