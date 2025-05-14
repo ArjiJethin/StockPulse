@@ -1,190 +1,297 @@
-//Dark-Mode
-const modeBtn = document.querySelector(".mode-btn");
+const FINNHUB_API_KEY = "API_KEY";
+const ALPHA_VANTAGE_KEY = "API_KEY";
 
+const stockSymbols = [
+    "AAPL",
+    "MSFT",
+    "AMZN",
+    "NVDA",
+    "TSLA",
+    "GOOGL",
+    "NFLX",
+    "AMD",
+    "META",
+];
+
+const modeBtn = document.querySelector(".mode-btn");
 document.addEventListener("DOMContentLoaded", () => {
     const darkModeState = localStorage.getItem("darkMode");
-    if (darkModeState === "enabled") {
-        document.body.classList.add("dark-mode");
-    }
+    if (darkModeState === "enabled") document.body.classList.add("dark-mode");
+    fetchAllData();
 });
 
 function darkMode() {
     document.body.classList.toggle("dark-mode");
-    if (document.body.classList.contains("dark-mode")) {
-        localStorage.setItem("darkMode", "enabled");
-    } else {
-        localStorage.setItem("darkMode", "disabled");
+    localStorage.setItem(
+        "darkMode",
+        document.body.classList.contains("dark-mode") ? "enabled" : "disabled"
+    );
+}
+
+function delay(ms) {
+    return new Promise((res) => setTimeout(res, ms));
+}
+
+async function fetchQuote(symbol) {
+    const url = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${FINNHUB_API_KEY}`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    console.log(`Fetched quote for ${symbol}:`, data);
+
+    if (!data.c) throw new Error("Invalid Finnhub quote data");
+
+    const price = data.c;
+    const prevClose = data.pc;
+    const change = price - prevClose;
+    const percentChange = ((change / prevClose) * 100).toFixed(2);
+
+    return {
+        symbol,
+        price: price.toFixed(2),
+        change: `${change >= 0 ? "+" : ""}${percentChange}%`,
+        numericChange: parseFloat(percentChange),
+    };
+}
+
+async function fetchChartFromAlpha(symbol) {
+    try {
+        const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${ALPHA_VANTAGE_KEY}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        console.log(`Fetched chart for ${symbol}:`, data);
+
+        if (!data["Time Series (5min)"])
+            throw new Error("Alpha Vantage data error");
+
+        const closePrices = Object.values(data["Time Series (5min)"])
+            .slice(0, 5)
+            .map((entry) => parseFloat(entry["4. close"]))
+            .reverse();
+
+        return closePrices;
+    } catch (err) {
+        console.warn(`Using dummy chart data for ${symbol}:`, err.message);
+        return [1, 2, 3, 2.5, 3.5];
     }
 }
 
-// ======================
-// Dummy Data Definitions
-// ======================
+async function fetchAllData() {
+    const stockSummary = document.getElementById("stock-summary");
+    const mainCards = document.getElementById("main-cards");
+    const insightList = document.getElementById("insight-list");
+    const allStocks = document.getElementById("all-stocks");
 
-const stockSummaryData = [
-    { symbol: "AAPL", price: "172.32", change: "+0.23%" },
-    { symbol: "MSFT", price: "310.65", change: "-0.4%" },
-    { symbol: "NOT", price: "420.65", change: "+10.0%" },
-    { symbol: "NVDA", price: "452.52", change: "+4.1%" },
-    { symbol: "TSLA", price: "775.52", change: "+3.1%" },
-    { symbol: "AMZN", price: "118.32", change: "+1.8%" },
-    { symbol: "GOOGL", price: "133.22", change: "-0.9%" },
-    { symbol: "NFLX", price: "365.65", change: "-1.2%" },
-    { symbol: "AMD", price: "123.50", change: "+4.9%" },
-    { symbol: "META", price: "295.20", change: "+2.0%" },
-];
+    let quoteDataList = [];
 
-const mainCardsData = [
-    {
-        name: "Tesla",
-        ticker: "TSLA",
-        percent: "+4.2%",
-        logo: "https://cdn.iconscout.com/icon/free/png-256/tesla-11-569489.png",
-    },
-    {
-        name: "Meta",
-        ticker: "META",
-        percent: "+2.0%",
-        logo: "https://cdn-icons-png.flaticon.com/512/733/733547.png",
-    },
-];
+    for (let i = 0; i < stockSymbols.length; i++) {
+        const symbol = stockSymbols[i];
+        try {
+            const quote = await fetchQuote(symbol);
+            quoteDataList.push(quote);
 
-const insightsData = [
-    { title: "Top Gainers", company: "AMZN", change: "+5.3%" },
-    { title: "Top Losers", company: "NFLX", change: "-3.1%" },
-    { title: "Most Volatile", company: "AMD", change: "+4.8%" },
-    { title: "Most Popular", company: "NVDA", change: "+4.1%" },
-];
+            // Summary card
+            const div = document.createElement("div");
+            div.className = "stock-item";
+            div.innerHTML = `
+                <div class="stock-symbol">${quote.symbol}</div>
+                <div class="stock-price">${quote.price}</div>
+                <div class="stock-change ${
+                    quote.change.includes("-") ? "red" : "green"
+                }">
+                    ${quote.change.includes("-") ? "▼" : "▲"} ${quote.change}
+                </div>`;
+            stockSummary.appendChild(div);
 
-const allStocksData = [
-    { symbol: "AAPL", company: "Apple Inc.", change: "+1.2%" },
-    { symbol: "AMZN", company: "Amazon Inc.", change: "+5.3%" },
-    { symbol: "GOOGL", company: "Alphabet", change: "-0.9%" },
-    { symbol: "AMD", company: "AMD", change: "+4.8%" },
-    { symbol: "NFLX", company: "Netflix", change: "-3.1%" },
-    { symbol: "NVDA", company: "NVIDIA", change: "+4.9%" },
-    { symbol: "AAPL", company: "Apple Inc.", change: "+1.2%" },
-    { symbol: "AMZN", company: "Amazon Inc.", change: "+5.3%" },
-    { symbol: "GOOGL", company: "Alphabet", change: "-0.9%" },
-    { symbol: "AMD", company: "AMD", change: "+4.8%" },
-    { symbol: "NFLX", company: "Netflix", change: "-3.1%" },
-    { symbol: "NVDA", company: "NVIDIA", change: "+4.9%" },
-];
+            // Main card (top 2)
+            if (i < 2) {
+                const card = document.createElement("div");
+                card.className = "main-card";
+                const canvasId = `chart-${i}`;
+                card.innerHTML = `
+                    <div class="main-card-header">
+                        <div class="main-text">
+                            <h3>${quote.symbol}</h3>
+                            <p class="subtitle">${quote.symbol}, Inc.</p>
+                        </div>
+                    </div>
+                    <div class="main-card-body">
+                        <div class="main-logo-change">
+                            <img src="assets/Icons/Icon.png" alt="${
+                                quote.symbol
+                            }" class="main-logo">
+                            <div class="main-change ${
+                                quote.change.includes("-") ? "red" : "green"
+                            }">
+                                ${quote.change.includes("-") ? "▼" : "▲"} ${
+                    quote.change
+                }
+                            </div>
+                        </div>
+                        <div class="main-graph-container">
+                            <canvas id="${canvasId}" width="240" height="100"></canvas>
+                        </div>
+                    </div>
+                    <button class="details-btn">Details</button>`;
+                mainCards.appendChild(card);
 
-// ======================
-// Populate Stock Summary
-// ======================
+                const ctx = document.getElementById(canvasId).getContext("2d");
+                const chartData = await fetchChartFromAlpha(symbol);
+                new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: ["1", "2", "3", "4", "5"],
+                        datasets: [
+                            {
+                                data: chartData,
+                                borderColor: "#4da1ff",
+                                backgroundColor: "transparent",
+                                tension: 0.4,
+                            },
+                        ],
+                    },
+                    options: {
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { display: false },
+                            y: { display: false },
+                        },
+                        elements: { point: { radius: 0 } },
+                        responsive: false,
+                        maintainAspectRatio: false,
+                    },
+                });
+            }
 
-const stockSummary = document.getElementById("stock-summary");
+            // Small stock card
+            const cardLink = document.createElement("a");
+            cardLink.href = `stock.html?symbol=${quote.symbol}`;
+            cardLink.target = "_blank";
+            cardLink.className = "small-stock-card-link";
 
-stockSummaryData.forEach((stock) => {
-    const div = document.createElement("div");
-    div.className = "stock-item";
-    div.innerHTML = `
-        <div class="stock-symbol">${stock.symbol}</div>
-        <div class="stock-price">${stock.price}</div>
-        <div class="stock-change ${
-            stock.change.includes("+") ? "green" : "red"
-        }">
-            ${stock.change.includes("+") ? "▲" : "▼"} ${stock.change}
-        </div>
-    `;
-    stockSummary.appendChild(div);
-});
+            const smallCard = document.createElement("div");
+            smallCard.className = "small-stock-card";
+            const canvasId2 = `small-chart-${i}`;
+            smallCard.innerHTML = `
+                <div class="stock-card-header">
+                    <strong>${quote.symbol}</strong>
+                    <p>${quote.symbol}, Inc.</p>
+                </div>
+                <div class="stock-card-footer">
+                    <canvas id="${canvasId2}" width="50" height="20"></canvas>
+                    <span class="${
+                        quote.change.includes("-") ? "red" : "green"
+                    }">${quote.change}</span>
+                </div>`;
+            cardLink.appendChild(smallCard);
+            allStocks.appendChild(cardLink);
 
-// Duplicate for infinite scroll
-const items = Array.from(stockSummary.children);
-items.forEach((item) => {
-    const clone = item.cloneNode(true);
-    stockSummary.appendChild(clone);
-});
-
-setInterval(() => {
-    stockSummary.scrollBy({ left: 1, behavior: "smooth" });
-    if (stockSummary.scrollLeft >= stockSummary.scrollWidth / 2) {
-        stockSummary.scrollLeft = 0;
-    }
-}, 30);
-
-// ======================
-// Populate Main Cards
-// ======================
-
-const mainCards = document.getElementById("main-cards");
-
-mainCardsData.forEach((stock, index) => {
-    const card = document.createElement("div");
-    card.className = "main-card";
-    const canvasId = `chart-${index}`;
-
-    card.innerHTML = `
-    <div class="main-card-header">
-        <div class="main-text">
-            <h3>${stock.name}</h3>
-            <p class="subtitle">${stock.name}, Inc.</p>
-        </div>
-    </div>
-    <div class="main-card-body">
-        <div class="main-logo-change">
-            <img src="${stock.logo}" alt="${stock.name}" class="main-logo">
-            <div class="main-change ${
-                stock.percent.includes("+") ? "green" : "red"
-            }">
-                ${stock.percent.includes("+") ? "▲" : "▼"} ${stock.percent}
-            </div>
-        </div>
-        <div class="main-graph-container">
-            <canvas id="${canvasId}" width="240" height="100"></canvas>
-        </div>
-    </div>
-    <button class="details-btn">Details</button>
-`;
-
-    mainCards.appendChild(card);
-
-    const ctx = document.getElementById(canvasId).getContext("2d");
-    new Chart(ctx, {
-        type: "line",
-        data: {
-            labels: ["1", "2", "3", "4", "5"],
-            datasets: [
-                {
-                    data: [100, 102, 101, 108, 104],
-                    borderColor: "#4da1ff",
-                    backgroundColor: "transparent",
-                    tension: 0.4,
+            const ctx2 = document.getElementById(canvasId2).getContext("2d");
+            const chartData2 = await fetchChartFromAlpha(symbol);
+            new Chart(ctx2, {
+                type: "line",
+                data: {
+                    labels: ["1", "2", "3", "4", "5"],
+                    datasets: [
+                        {
+                            data: chartData2,
+                            borderColor: "#4da1ff",
+                            backgroundColor: "transparent",
+                            tension: 0.4,
+                        },
+                    ],
                 },
-            ],
-        },
-        options: {
-            plugins: { legend: { display: false } },
-            scales: { x: { display: false }, y: { display: false } },
-            elements: { point: { radius: 0 } },
-            responsive: false,
-            maintainAspectRatio: false,
-        },
-    });
-});
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: false }, y: { display: false } },
+                    elements: { point: { radius: 0 } },
+                    responsive: false,
+                    maintainAspectRatio: false,
+                },
+            });
+        } catch (err) {
+            console.error(`Error fetching data for ${symbol}:`, err.message);
+        }
 
-// Attach click listener to "Details" buttons
-mainCards.querySelectorAll(".main-card").forEach((card, i) => {
-    card.addEventListener("click", () => {
-        const ticker = mainCardsData[i].ticker;
-        window.open(`stock.html?symbol=${ticker}`, "_blank"); // opens in new tab
-    });
-});
+        await delay(1200); // API rate respect
+    }
 
-// Attach click listeners to small stock cards
-document.querySelectorAll(".small-stock-card").forEach((card, i) => {
-    card.addEventListener("click", () => {
-        const ticker = allStocksData[i].symbol;
-        window.location.href = `stock.html?symbol=${ticker}`;
-    });
-});
+    // === Top 5 insights ===
+    const top5 = quoteDataList
+        .filter((q) => !isNaN(q.numericChange))
+        .sort((a, b) => b.numericChange - a.numericChange)
+        .slice(0, 5);
 
-// ======================
-// Tilt Effect
-// ======================
+    for (const quote of top5) {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <div class="insight-top">
+                <strong>${quote.symbol}</strong>
+                <span class="${quote.change.includes("-") ? "red" : "green"}">
+                    ${quote.change.includes("-") ? "▼" : "▲"} ${quote.change}
+                </span>
+            </div>
+            <div class="insight-company">Top Performing Stock</div>`;
+        insightList.appendChild(li);
+    }
+
+    // === Extra stocks for scrolling summary ===
+    const extraSummaryStocks = [
+        "INTC",
+        "BA",
+        "DIS",
+        "V",
+        "MA",
+        "PYPL",
+        "CRM",
+        "CSCO",
+        "ORCL",
+        "IBM",
+        "UBER",
+    ];
+    for (let symbol of extraSummaryStocks) {
+        try {
+            const quote = await fetchQuote(symbol);
+            const div = document.createElement("div");
+            div.className = "stock-item";
+            div.innerHTML = `
+                <div class="stock-symbol">${quote.symbol}</div>
+                <div class="stock-price">${quote.price}</div>
+                <div class="stock-change ${
+                    quote.change.includes("-") ? "red" : "green"
+                }">
+                    ${quote.change.includes("-") ? "▼" : "▲"} ${quote.change}
+                </div>`;
+            stockSummary.appendChild(div);
+            await delay(1000);
+        } catch (err) {
+            console.warn(
+                `Extra summary stock fetch failed: ${symbol}`,
+                err.message
+            );
+        }
+    }
+
+    autoScrollSummaryBar();
+    attachCardTiltEffect(".main-card");
+}
+
+// === Auto-scroll logic for summary bar ===
+function autoScrollSummaryBar() {
+    const summary = document.getElementById("stock-summary");
+    if (!summary) return;
+
+    let scrollAmount = 0;
+    setInterval(() => {
+        scrollAmount += 1;
+        summary.scrollTo({ left: scrollAmount, behavior: "smooth" });
+
+        if (scrollAmount >= summary.scrollWidth - summary.clientWidth) {
+            scrollAmount = 0;
+        }
+    }, 120); // adjust speed here
+}
 
 function attachCardTiltEffect(selector) {
     document.querySelectorAll(selector).forEach((card) => {
@@ -194,171 +301,17 @@ function attachCardTiltEffect(selector) {
             const y = e.clientY - rect.top;
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-
             const rotateX = -(y - centerY) / 30;
             const rotateY = (x - centerX) / 30;
-
             card.style.transition = "transform 0.1s ease-out";
             card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
         });
-
         card.addEventListener("mouseleave", () => {
             card.style.transform = "rotateX(0) rotateY(0) scale(1)";
             card.style.transition = "transform 0.4s ease";
         });
-
         card.addEventListener("mouseenter", () => {
             card.style.transition = "transform 0.2s ease";
         });
     });
 }
-
-attachCardTiltEffect(".main-card");
-
-// ======================
-// Populate Insights
-// ======================
-
-const insightList = document.getElementById("insight-list");
-insightsData.forEach((insight) => {
-    const li = document.createElement("li");
-    li.innerHTML = `
-        <div class="insight-top">
-            <strong>${insight.title}</strong>
-            <span class="${insight.change.includes("+") ? "green" : "red"}">
-                ${insight.change.includes("+") ? "▲" : "▼"} ${insight.change}
-            </span>
-        </div>
-        <div class="insight-company">${insight.company}</div>
-    `;
-    insightList.appendChild(li);
-});
-
-// ======================
-// Populate All Stocks
-// ======================
-
-const allStocks = document.getElementById("all-stocks");
-
-allStocksData.forEach((stock, index) => {
-    const cardLink = document.createElement("a");
-    cardLink.href = `stock.html?symbol=${stock.symbol}`;
-    cardLink.target = "_blank"; // Open in new tab
-    cardLink.className = "small-stock-card-link"; // Optional wrapper class
-
-    const card = document.createElement("div");
-    card.className = "small-stock-card";
-
-    const canvasId = `small-chart-${index}`;
-
-    card.innerHTML = `
-        <div class="stock-card-header">
-            <strong>${stock.symbol}</strong>
-            <p>${stock.company}</p>
-        </div>
-        <div class="stock-card-footer">
-            <canvas id="${canvasId}" width="50" height="20"></canvas>
-            <span class="${stock.change.includes("+") ? "green" : "red"}">
-                ${stock.change}
-            </span>
-        </div>
-    `;
-
-    cardLink.appendChild(card);
-    allStocks.appendChild(cardLink);
-
-    const ctx = document.getElementById(canvasId).getContext("2d");
-    new Chart(ctx, {
-        type: "line",
-        data: {
-            labels: ["1", "2", "3", "4", "5"],
-            datasets: [
-                {
-                    data: [20, 22, 21, 25, 24],
-                    borderColor: "#4da1ff",
-                    backgroundColor: "transparent",
-                    tension: 0.4,
-                },
-            ],
-        },
-        options: {
-            plugins: { legend: { display: false } },
-            scales: { x: { display: false }, y: { display: false } },
-            elements: { point: { radius: 0 } },
-            responsive: false,
-            maintainAspectRatio: false,
-        },
-    });
-});
-
-// Enable horizontal scroll
-const horizontalScrollContainer = document.querySelector(".all-stocks-scroll");
-
-let isScrolling = false;
-
-horizontalScrollContainer.addEventListener("wheel", function (e) {
-    if (e.deltaY === 0) return;
-    e.preventDefault();
-
-    const scrollSpeed = 2;
-
-    if (!isScrolling) {
-        isScrolling = true;
-        horizontalScrollContainer.scrollBy({
-            left: e.deltaY * scrollSpeed,
-            behavior: "smooth",
-        });
-
-        setTimeout(() => {
-            isScrolling = false;
-        }, 100);
-    }
-});
-
-// Mobile Search Toggle
-const searchBar = document.getElementById("mobile-search-bar");
-const searchToggle = document.getElementById("search-toggle-icon");
-const profileIcon = document.querySelector(".profile-icon");
-
-function expandSearchBar() {
-    searchBar.classList.add("expanded");
-    searchBar.classList.remove("collapsed");
-    document.querySelector(".profile-group").style.display = "none";
-    document.getElementById("search-input").focus();
-}
-
-function collapseSearchBar() {
-    searchBar.classList.add("collapsed");
-    searchBar.classList.remove("expanded");
-    document.querySelector(".profile-group").style.display = "";
-}
-
-// Attach listeners unconditionally
-searchToggle.addEventListener("click", (e) => {
-    // Only run this on mobile
-    if (window.innerWidth > 768) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (searchBar.classList.contains("collapsed")) {
-        expandSearchBar();
-    } else {
-        collapseSearchBar();
-    }
-});
-
-document.addEventListener("click", (e) => {
-    if (window.innerWidth > 768) return;
-
-    const isClickInsideSearch = searchBar.contains(e.target);
-    const isClickOnToggle = e.target === searchToggle;
-
-    if (
-        !isClickInsideSearch &&
-        !isClickOnToggle &&
-        searchBar.classList.contains("expanded")
-    ) {
-        collapseSearchBar();
-    }
-});
