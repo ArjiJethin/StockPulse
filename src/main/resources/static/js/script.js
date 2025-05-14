@@ -3,40 +3,33 @@ const registerBtn = document.querySelector(".register-btn");
 const loginBtn = document.querySelector(".login-btn");
 
 registerBtn.addEventListener("click", () => {
-    container.classList.add("active"); // Use "active" instead of "activate"
+    container.classList.add("active");
 });
 
 loginBtn.addEventListener("click", () => {
-    container.classList.remove("active"); // Remove "active" to switch back to login
+    container.classList.remove("active");
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("registerForm");
-
-    if (form) {
-        form.addEventListener("submit", (e) => {
-            e.preventDefault();
-
-            if (form.checkValidity()) {
-                const username =
-                    document.getElementById("username")?.value || "";
-                localStorage.setItem("username", username);
-
-                window.location.href = "recoms.html";
-            } else {
-                form.reportValidity();
-            }
-        });
-    }
-});
-
-// Check localStorage and apply dark mode on page load
+// Dark mode handling
 const modeBtn = document.querySelector(".mode-btn");
 
 document.addEventListener("DOMContentLoaded", () => {
     const darkModeState = localStorage.getItem("darkMode");
     if (darkModeState === "enabled") {
         document.body.classList.add("dark-mode");
+    }
+
+    // Mobile splash screen
+    const overlay = document.querySelector(".mobile-overlay");
+    const isMobile = window.innerWidth <= 650;
+
+    if (overlay && isMobile) {
+        setTimeout(() => {
+            overlay.classList.add("fade-out");
+            setTimeout(() => {
+                overlay.style.display = "none";
+            }, 1000);
+        }, 4000);
     }
 });
 
@@ -49,19 +42,51 @@ function darkMode() {
     }
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-    const overlay = document.querySelector(".mobile-overlay");
-    const isMobile = window.innerWidth <= 650;
+// Form handling logic
+document.addEventListener("DOMContentLoaded", () => {
+    // Register handler
+    const registerForm = document.getElementById("registerForm");
+    if (registerForm) {
+        registerForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const username = document.getElementById("register-username").value;
+            const email = document.getElementById("register-email").value;
+            const password = document.getElementById("register-password").value;
 
-    if (overlay && isMobile) {
-        // Match SVG animation duration (7s) + delay (optional)
-        setTimeout(() => {
-            overlay.classList.add("fade-out");
+            const res = await fetch("/api/auth/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, email, password }),
+            });
 
-            // Fully remove after fade transition ends
-            setTimeout(() => {
-                overlay.style.display = "none";
-            }, 1000); // match fade duration
-        }, 4000); // match animation loop length
+            const text = await res.text();
+            alert(text);
+            if (res.ok) window.location.href = "index.html";
+        });
+    }
+
+    // Login handler
+    const loginForm = document.getElementById("loginForm");
+    if (loginForm) {
+        loginForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const username = document.getElementById("login-username").value;
+            const password = document.getElementById("login-password").value;
+
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password }),
+            });
+
+            const text = await res.text();
+            if (res.ok) {
+                localStorage.setItem("username", username);
+                alert("Login successful");
+                window.location.href = "recoms.html";
+            } else {
+                alert(text || "Login failed");
+            }
+        });
     }
 });
