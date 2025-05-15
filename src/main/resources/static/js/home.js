@@ -1,3 +1,5 @@
+const chartInstances = [];
+
 const stockSymbols = [
     "AAPL",
     "MSFT",
@@ -31,10 +33,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function darkMode() {
     document.body.classList.toggle("dark-mode");
+
     const currentMode = document.body.classList.contains("dark-mode")
         ? "enabled"
         : "disabled";
     localStorage.setItem("darkMode", currentMode);
+
+    // 🔁 Re-render charts with new theme colors
+    chartInstances.forEach((chart) => {
+        const ctx = chart.ctx;
+        const { borderColor, gradientFrom, gradientTo } = getChartColors();
+        const gradient = ctx.createLinearGradient(0, 0, 0, 100);
+        gradient.addColorStop(0, gradientFrom);
+        gradient.addColorStop(1, gradientTo);
+
+        chart.data.datasets[0].borderColor = borderColor;
+        chart.data.datasets[0].backgroundColor = gradient;
+        chart.update();
+    });
+}
+
+function getChartColors() {
+    const isDark = document.body.classList.contains("dark-mode");
+    return {
+        borderColor: isDark ? "#ffd700" : "#4da1ff",
+        gradientFrom: isDark
+            ? "rgba(255, 165, 0, 0.25)"
+            : "rgba(77, 161, 255, 0.6)",
+        gradientTo: isDark
+            ? "rgba(255, 165, 0, 0.03)"
+            : "rgba(77, 161, 255, 0.05)",
+    };
 }
 
 function delay(ms) {
@@ -239,16 +268,23 @@ async function fetchAllData() {
                 const ctx = document.getElementById(canvasId).getContext("2d");
                 const chartData = await fetchChartFromAlpha(symbol);
 
-                new Chart(ctx, {
+                const { borderColor, gradientFrom, gradientTo } =
+                    getChartColors();
+                const gradient = ctx.createLinearGradient(0, 0, 0, 100);
+                gradient.addColorStop(0, gradientFrom);
+                gradient.addColorStop(1, gradientTo);
+
+                const mainChart = new Chart(ctx, {
                     type: "line",
                     data: {
                         labels: ["1", "2", "3", "4", "5"],
                         datasets: [
                             {
                                 data: chartData,
-                                borderColor: "#4da1ff",
-                                backgroundColor: "transparent",
+                                borderColor: borderColor,
+                                backgroundColor: gradient,
                                 tension: 0.4,
+                                fill: true,
                             },
                         ],
                     },
@@ -263,6 +299,7 @@ async function fetchAllData() {
                         maintainAspectRatio: false,
                     },
                 });
+                chartInstances.push(mainChart);
             }
 
             const cardLink = document.createElement("a");
@@ -292,15 +329,20 @@ async function fetchAllData() {
             const ctx2 = document.getElementById(canvasId2).getContext("2d");
             const chartData2 = await fetchChartFromAlpha(symbol);
 
-            new Chart(ctx2, {
+            const { borderColor, gradientFrom, gradientTo } = getChartColors();
+            const gradient2 = ctx2.createLinearGradient(0, 0, 0, 100);
+            gradient2.addColorStop(0, gradientFrom);
+            gradient2.addColorStop(1, gradientTo);
+
+            const smallChart = new Chart(ctx2, {
                 type: "line",
                 data: {
                     labels: ["1", "2", "3", "4", "5"],
                     datasets: [
                         {
                             data: chartData2,
-                            borderColor: "#4da1ff",
-                            backgroundColor: "transparent",
+                            borderColor: borderColor,
+                            backgroundColor: gradient2,
                             tension: 0.4,
                         },
                     ],
@@ -313,6 +355,8 @@ async function fetchAllData() {
                     maintainAspectRatio: false,
                 },
             });
+
+            chartInstances.push(smallChart);
         } catch (err) {
             console.error("Fetch error:", symbol, err);
         }
