@@ -39,6 +39,8 @@ function darkMode() {
         : "disabled";
     localStorage.setItem("darkMode", currentMode);
 
+    autoScrollSummaryBar();
+
     // 🔁 Re-render charts with new theme colors
     chartInstances.forEach((chart) => {
         const ctx = chart.ctx;
@@ -70,6 +72,8 @@ function delay(ms) {
     return new Promise((res) => setTimeout(res, ms));
 }
 
+let scrollInterval;
+
 function autoScrollSummaryBar() {
     const summary = document.getElementById("stock-summary");
     if (!summary || summary.scrollWidth <= summary.clientWidth) {
@@ -77,14 +81,17 @@ function autoScrollSummaryBar() {
         return;
     }
 
-    let scrollAmount = 0;
-    setInterval(() => {
-        scrollAmount += 1;
-        summary.scrollTo({ left: scrollAmount, behavior: "smooth" });
-        if (scrollAmount >= summary.scrollWidth - summary.clientWidth) {
-            scrollAmount = 0;
+    if (scrollInterval) clearInterval(scrollInterval);
+
+    scrollInterval = setInterval(() => {
+        // Increment scrollLeft by 1px
+        summary.scrollLeft += 1;
+
+        // Reset scroll to start when reaching max scroll width
+        if (summary.scrollLeft >= summary.scrollWidth - summary.clientWidth) {
+            summary.scrollLeft = 0;
         }
-    }, 60);
+    }, 30);
 }
 
 function injectSkeletons() {
