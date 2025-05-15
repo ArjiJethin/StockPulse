@@ -1,5 +1,12 @@
-{"properties": [{
-  "name": "finnhub.keys",
-  "type": "java.lang.String",
-  "description": "A description for 'finnhub.keys'"
-}]}
+{"properties": [
+  {
+    "name": "finnhub.keys",
+    "type": "java.lang.String",
+    "description": "A description for 'finnhub.keys'"
+  },
+  {
+    "name": "alphavantage.keys",
+    "type": "java.lang.String",
+    "description": "A description for 'alphavantage.keys'"
+  }
+]}
