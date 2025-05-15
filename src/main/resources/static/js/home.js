@@ -226,7 +226,10 @@ async function fetchAllData() {
                         .forEach((btn, idx) => {
                             btn.addEventListener("click", () => {
                                 const symbol = stockSymbols[idx];
-                                window.location.href = `stock.html?symbol=${symbol}`;
+                                window.open(
+                                    `stock.html?symbol=${symbol}`,
+                                    "_blank"
+                                );
                             });
                         });
                 }, 0);
