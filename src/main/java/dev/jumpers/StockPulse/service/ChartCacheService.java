@@ -6,15 +6,13 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.time.Duration;
-import java.time.Instant;
+import java.time.*;
 import java.util.Optional;
 
 @Service
 public class ChartCacheService {
 
     private final ChartCacheRepository repository;
-    private static final Duration CACHE_EXPIRY = Duration.ofHours(24);
 
     public ChartCacheService(ChartCacheRepository repository) {
         this.repository = repository;
@@ -24,9 +22,22 @@ public class ChartCacheService {
         Optional<ChartCacheEntity> entryOpt = repository.findById(symbol.toUpperCase());
         if (entryOpt.isPresent()) {
             ChartCacheEntity entry = entryOpt.get();
-            if (Instant.now().isBefore(entry.getCachedAt().plus(CACHE_EXPIRY))) {
+            Instant cachedAt = entry.getCachedAt();
+
+            // Determine today's 6:00 AM timestamp in server's local timezone
+            Instant today6am = LocalDate.now()
+                    .atTime(LocalTime.of(6, 0))
+                    .atZone(ZoneId.systemDefault())
+                    .toInstant();
+
+            System.out.println("⏰ Cache timestamp for " + symbol + ": " + cachedAt);
+            System.out.println("🕕 Today's 6 AM cutoff: " + today6am);
+
+            if (cachedAt.isAfter(today6am)) {
+                System.out.println("✅ Cache is valid (after today's 6 AM)");
                 return entry.getChartData();
             } else {
+                System.out.println("⛔ Cache expired (before today's 6 AM). Deleting...");
                 repository.delete(entry);
             }
         }
@@ -47,8 +58,19 @@ public class ChartCacheService {
     }
 
     public void putChart(String symbol, String data) {
-        ChartCacheEntity entry = new ChartCacheEntity();
-        entry.setSymbol(symbol.toUpperCase());
+        String symbolUpper = symbol.toUpperCase();
+        Optional<ChartCacheEntity> existingEntry = repository.findById(symbolUpper);
+
+        ChartCacheEntity entry;
+        if (existingEntry.isPresent()) {
+            entry = existingEntry.get();
+            System.out.println("🔄 Updating existing cache entry for symbol: " + symbolUpper);
+        } else {
+            entry = new ChartCacheEntity();
+            entry.setSymbol(symbolUpper);
+            System.out.println("➕ Creating new cache entry for symbol: " + symbolUpper);
+        }
+
         entry.setChartData(data);
         entry.setCachedAt(Instant.now());
         repository.save(entry);
