@@ -36,6 +36,10 @@ public class StockController {
 
         if (cached != null && !cached.isExpired()) {
             System.out.println("📦 Serving quote for " + symbol + " from cache");
+
+            System.out.println("🕒 Cached at: " + cached.cachedAt);
+            System.out.println("⏳ Time now: " + Instant.now());
+
             return ResponseEntity.ok(cached.getResponse());
         }
 
