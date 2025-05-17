@@ -28,10 +28,16 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody Map<String, String> loginData) {
         String username = loginData.get("username");
         String password = loginData.get("password");
+
         if (userService.authenticate(username, password)) {
-            return ResponseEntity.ok("Login successful");
+            User user = userService.findByUsername(username);
+            Map<String, Object> body = Map.of(
+                    "id", user.getId(),
+                    "username", user.getUsername());
+            return ResponseEntity.ok(body); // ✅ return actual JSON
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
+
 }

@@ -26,9 +26,71 @@ const companyNameMap = {
     META: "Meta",
 };
 
+const companyData = {
+    AAPL: {
+        logo: "https://logo.clearbit.com/apple.com",
+        profile:
+            "Apple Inc. designs and sells consumer electronics, software, and online services. Its products include iPhone, iPad, Mac, and more.",
+    },
+    MSFT: {
+        logo: "https://logo.clearbit.com/microsoft.com",
+        profile:
+            "Microsoft develops and supports software, services, and devices including Windows, Office, and Azure.",
+    },
+    GOOGL: {
+        logo: "https://logo.clearbit.com/abc.xyz",
+        profile:
+            "Alphabet Inc. is Google's parent company, offering products in internet search, ads, cloud, and AI.",
+    },
+    TSLA: {
+        logo: "https://logo.clearbit.com/tesla.com",
+        profile:
+            "Tesla designs, manufactures, and sells electric vehicles and energy storage products.",
+    },
+    AMZN: {
+        logo: "https://logo.clearbit.com/amazon.com",
+        profile:
+            "Amazon is an e-commerce and cloud computing leader with AWS, Prime, and marketplace services.",
+    },
+    NVDA: {
+        logo: "https://logo.clearbit.com/nvidia.com",
+        profile:
+            "NVIDIA designs graphics processing units (GPUs) for gaming, AI, and data centers.",
+    },
+    AMD: {
+        logo: "https://logo.clearbit.com/amd.com",
+        profile:
+            "AMD develops computer processors and graphics technologies for PCs, gaming, and servers.",
+    },
+    META: {
+        logo: "https://logo.clearbit.com/meta.com",
+        profile:
+            "Meta Platforms (formerly Facebook) builds technologies that help people connect, including Facebook, Instagram, and WhatsApp.",
+    },
+    NFLX: {
+        logo: "https://logo.clearbit.com/netflix.com",
+        profile:
+            "Netflix is a leading subscription streaming service offering TV series, films, and original content.",
+    },
+};
+
 function getSymbol() {
     const params = new URLSearchParams(location.search);
     return params.get("symbol") || "TSLA";
+}
+
+function updateCompanyCard(symbol) {
+    const data = companyData[symbol.toUpperCase()];
+    const logoEl = document.getElementById("company-logo");
+    const profileEl = document.getElementById("company-profile");
+
+    if (data) {
+        logoEl.src = data.logo;
+        profileEl.innerText = data.profile;
+    } else {
+        logoEl.src = "https://via.placeholder.com/50";
+        profileEl.innerText = "Company profile not available.";
+    }
 }
 
 function formatBillion(value) {
@@ -42,6 +104,8 @@ function formatMillion(value) {
 document.addEventListener("DOMContentLoaded", () => {
     const symbol = getSymbol();
     document.getElementById("stock-symbol").innerText = symbol;
+    updateCompanyCard(symbol); // This stays here
+
     const name = companyNameMap[symbol.toUpperCase()] || symbol;
     document.getElementById("company-name").textContent = name;
 
@@ -98,7 +162,44 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("net-income").innerText = financials.netIncome;
     document.getElementById("dividend-yield").innerText =
         financials.dividendYield;
-    document.getElementById("company-profile").innerText = profileText;
+    // Realistic mock values
+    document.getElementById("high-52w").innerText =
+        "$" + (Math.random() * 1000 + 100).toFixed(2); // $100 – $1100
+    document.getElementById("low-52w").innerText =
+        "$" + (Math.random() * 100 + 10).toFixed(2); // $10 – $110
+    document.getElementById("upper-circuit").innerText =
+        "$" + (Math.random() * 50 + 500).toFixed(2); // $500 – $550
+    document.getElementById("lower-circuit").innerText =
+        "$" + (Math.random() * 50 + 400).toFixed(2); // $400 – $450
+    document.getElementById("todays-low").innerText =
+        "$" + (Math.random() * 20 + 480).toFixed(2); // $480 – $500
+    document.getElementById("todays-high").innerText =
+        "$" + (Math.random() * 20 + 500).toFixed(2); // $500 – $520
+    document.getElementById("volume").innerText = (
+        Math.random() * 10_000_000 +
+        1_000_000
+    ).toLocaleString(); // 1M–11M
+
+    // Financials Section
+    document.getElementById("revenue").innerText =
+        "$" +
+        (Math.random() * 100_000_000_000 + 10_000_000_000).toLocaleString(); // $10B–$110B
+    document.getElementById("net-income").innerText =
+        "$" + (Math.random() * 10_000_000_000 + 500_000_000).toLocaleString(); // $0.5B–$10.5B
+    document.getElementById("dividend-yield").innerText =
+        (Math.random() * 5 + 0.5).toFixed(2) + "%"; // 0.5% – 5.5%
+    document.getElementById("profit").innerText =
+        "$" + (Math.random() * 8_000_000_000 + 1_000_000_000).toLocaleString(); // $1B–$9B
+    document.getElementById("shareholding-patterns").innerText =
+        "Promoters: " +
+        (Math.random() * 30 + 50).toFixed(1) +
+        "%, Public: " +
+        (Math.random() * 30 + 20).toFixed(1) +
+        "%, FII: " +
+        (Math.random() * 10 + 5).toFixed(1) +
+        "%, DII: " +
+        (Math.random() * 10 + 5).toFixed(1) +
+        "%";
 
     const newsList = document.getElementById("news-list");
     newsList.innerHTML = news

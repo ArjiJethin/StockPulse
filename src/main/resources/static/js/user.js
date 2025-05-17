@@ -31,6 +31,38 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // user.js (snippet inside DOMContentLoaded)
+    const user = JSON.parse(localStorage.getItem("sp_current_user") || "{}");
+
+    if (user.username) {
+        document.querySelector(".user h3").textContent = user.username;
+        const avatarImg = document.querySelector(".user img.avatar");
+        if (avatarImg && user.username) {
+            const seed = encodeURIComponent(user.username);
+            const timestamp = Date.now(); // optional cache buster
+
+            // Dicebear styles for futuristic/cool avatars:
+            const dicebearStyles = {
+                bottts: `https://api.dicebear.com/7.x/bottts/svg?seed=${seed}&t=${timestamp}`,
+                pixelArtNeutral: `https://api.dicebear.com/7.x/pixel-art-neutral/svg?seed=${seed}&t=${timestamp}`,
+                micah: `https://api.dicebear.com/7.x/micah/svg?seed=${seed}&t=${timestamp}`,
+                gridy: `https://api.dicebear.com/7.x/gridy/svg?seed=${seed}&t=${timestamp}`,
+                human: `https://api.dicebear.com/7.x/human/svg?seed=${seed}&t=${timestamp}`,
+                avataaars: `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&t=${timestamp}`,
+            };
+
+            // Example: use 'bottts'
+            avatarImg.src = dicebearStyles.bottts;
+
+            // To switch styles, just set to any of the above, e.g.:
+            // avatarImg.src = dicebearStyles.pixelArtNeutral;
+            // avatarImg.src = dicebearStyles.micah;
+            // avatarImg.src = dicebearStyles.gridy;
+            // avatarImg.src = dicebearStyles.human;
+            // avatarImg.src = dicebearStyles.avataaars;
+        }
+    }
+
     // Draw main performance chart with correct theme
     const perfCanvas = document.getElementById("performanceChart");
     mainChartData = randomChartData();

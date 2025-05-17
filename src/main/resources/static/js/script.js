@@ -13,6 +13,16 @@ loginBtn.addEventListener("click", () => {
 // Dark mode handling
 const modeBtn = document.querySelector(".mode-btn");
 
+function darkMode() {
+    document.body.classList.toggle("dark-mode");
+    if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("darkMode", "enabled");
+    } else {
+        localStorage.setItem("darkMode", "disabled");
+    }
+}
+
+// Form handling logic
 document.addEventListener("DOMContentLoaded", () => {
     const darkModeState = localStorage.getItem("darkMode");
     if (darkModeState === "enabled") {
@@ -31,19 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 1000);
         }, 4000);
     }
-});
 
-function darkMode() {
-    document.body.classList.toggle("dark-mode");
-    if (document.body.classList.contains("dark-mode")) {
-        localStorage.setItem("darkMode", "enabled");
-    } else {
-        localStorage.setItem("darkMode", "disabled");
-    }
-}
-
-// Form handling logic
-document.addEventListener("DOMContentLoaded", () => {
     // Register handler
     const registerForm = document.getElementById("registerForm");
     if (registerForm) {
@@ -73,19 +71,22 @@ document.addEventListener("DOMContentLoaded", () => {
             const username = document.getElementById("login-username").value;
             const password = document.getElementById("login-password").value;
 
+            // 🔽 REPLACE this entire fetch block with the fixed version
             const res = await fetch("/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password }),
             });
 
-            const text = await res.text();
+            const result = await res.json(); // ✅ only parse once
+
             if (res.ok) {
-                localStorage.setItem("username", username);
+                localStorage.setItem("sp_current_user", JSON.stringify(result));
+                localStorage.setItem("username", result.username);
                 alert("Login successful");
-                window.location.href = "recoms.html";
+                window.location.href = "recoms.html"; // ✅ should now work
             } else {
-                alert(text || "Login failed");
+                alert(result.message || "Login failed"); // handle backend error message
             }
         });
     }
