@@ -23,6 +23,25 @@ const extraSummaryStocks = [
     "DIS",
 ];
 
+const companyData = {
+    AAPL: { logo: "https://logo.clearbit.com/apple.com" },
+    MSFT: { logo: "https://logo.clearbit.com/microsoft.com" },
+    AMZN: { logo: "https://logo.clearbit.com/amazon.com" },
+    NVDA: { logo: "https://logo.clearbit.com/nvidia.com" },
+    TSLA: { logo: "https://logo.clearbit.com/tesla.com" },
+    GOOGL: { logo: "https://logo.clearbit.com/abc.xyz" },
+    NFLX: { logo: "https://logo.clearbit.com/netflix.com" },
+    AMD: { logo: "https://logo.clearbit.com/amd.com" },
+    META: { logo: "https://logo.clearbit.com/meta.com" },
+};
+
+function getLogo(symbol) {
+    return (
+        companyData[symbol.toUpperCase()]?.logo ||
+        "https://via.placeholder.com/48"
+    );
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const darkModeState = localStorage.getItem("darkMode");
     if (darkModeState === "enabled") {
@@ -248,9 +267,9 @@ async function fetchAllData() {
             </div>
             <div class="main-card-body">
               <div class="main-logo-change">
-                <img src="assets/Icons/Icon.png" alt="${
+                <img src="${getLogo(quote.symbol)}" alt="${
                     quote.symbol
-                }" class="main-logo">
+                } logo" class="main-logo">
                 <div class="main-change ${
                     quote.change.includes("-") ? "red" : "green"
                 }">
