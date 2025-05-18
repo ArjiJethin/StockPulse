@@ -56,20 +56,28 @@ document.addEventListener("DOMContentLoaded", () => {
                 bottts: `https://api.dicebear.com/7.x/bottts/svg?seed=${seed}&t=${timestamp}`,
                 pixelArtNeutral: `https://api.dicebear.com/7.x/pixel-art-neutral/svg?seed=${seed}&t=${timestamp}`,
                 micah: `https://api.dicebear.com/7.x/micah/svg?seed=${seed}&t=${timestamp}`,
-                gridy: `https://api.dicebear.com/7.x/gridy/svg?seed=${seed}&t=${timestamp}`,
+                croodlesneutral: `https://api.dicebear.com/7.x/croodles-neutral/svg?seed=${seed}&t=${timestamp}`,
                 human: `https://api.dicebear.com/7.x/human/svg?seed=${seed}&t=${timestamp}`,
                 avataaars: `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&t=${timestamp}`,
+                funemoji: `https://api.dicebear.com/7.x/fun-emoji/svg?seed=${seed}&t=${timestamp}`,
+                glass: `https://api.dicebear.com/9.x/glass/svg?seed=${seed}&t=${timestamp}`,
+                identicon: `https://api.dicebear.com/9.x/identicon/svg?seed=${seed}&t=${timestamp}`,
+                rings: `https://api.dicebear.com/9.x/rings/svg?seed=${seed}&t=${timestamp}`,
             };
 
             // Example: use 'bottts'
-            avatarImg.src = dicebearStyles.bottts;
+            avatarImg.src = dicebearStyles.rings;
 
             // To switch styles, just set to any of the above, e.g.:
             // avatarImg.src = dicebearStyles.pixelArtNeutral;
             // avatarImg.src = dicebearStyles.micah;
-            // avatarImg.src = dicebearStyles.gridy;
+            // avatarImg.src = dicebearStyles.croodlesneutral;
             // avatarImg.src = dicebearStyles.human;
             // avatarImg.src = dicebearStyles.avataaars;
+            // avatarImg.src = dicebearStyles.funemoji;
+            // avatarImg.src = dicebearStyles.glass;
+            // avatarImg.src = dicebearStyles.identicon;
+            // avatarImg.src = dicebearStyles.rings;
         }
     }
 
