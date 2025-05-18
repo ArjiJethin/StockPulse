@@ -36,7 +36,7 @@ stocks.forEach((stock, index) => {
     card.innerHTML = `
         <div class="icon-badge-wrapper">
             <div class="badge">${stock.badge}</div>
-            <div class="circle-icon"></div>
+                <img src="../assets/Icons/Icon.png" class="stock-icon" alt="${stock.ticker} icon">
         </div>
         <div class="stock-name">${stock.ticker}</div>
         <div class="company">${stock.company}</div>

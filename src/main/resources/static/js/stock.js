@@ -4,8 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.add("dark-mode");
     }
 
-    const username = localStorage.getItem("username");
-    if (!username) {
+    const currentUser = JSON.parse(
+        localStorage.getItem("sp_current_user") || "{}"
+    );
+
+    if (!currentUser || !currentUser.username) {
         alert("Please log in first.");
         window.location.href = "index.html";
         return;

@@ -31,8 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    const username = localStorage.getItem("username");
-    if (!username) {
+    const currentUser = JSON.parse(
+        localStorage.getItem("sp_current_user") || "{}"
+    );
+
+    if (!currentUser || !currentUser.username) {
         alert("Please log in first.");
         window.location.href = "index.html";
         return;
@@ -107,6 +110,16 @@ function darkMode() {
     }
 
     redrawAllCharts();
+}
+
+// =====================
+// Log out Function
+// =====================
+
+function logout() {
+    localStorage.removeItem("sp_current_user");
+    sessionStorage.clear();
+    window.location.href = "index.html";
 }
 
 // =====================

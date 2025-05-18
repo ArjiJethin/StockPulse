@@ -229,6 +229,19 @@ body.dark-mode {
     margin: 0 auto;
 }
 
+.stock-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    object-fit: contain;
+    z-index: 0;
+}
+
 .stock-name {
     font-weight: 600;
     font-size: 1em;
