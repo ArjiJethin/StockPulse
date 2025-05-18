@@ -31,6 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const username = localStorage.getItem("username");
+    if (!username) {
+        alert("Please log in first.");
+        window.location.href = "index.html";
+        return;
+    }
+
     // user.js (snippet inside DOMContentLoaded)
     const user = JSON.parse(localStorage.getItem("sp_current_user") || "{}");
 

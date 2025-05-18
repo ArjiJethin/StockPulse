@@ -29,6 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.add("dark-mode");
     }
     fetchAllData();
+
+    const username = localStorage.getItem("username");
+    if (!username) {
+        alert("Please log in first.");
+        window.location.href = "index.html";
+        return;
+    }
 });
 
 function darkMode() {

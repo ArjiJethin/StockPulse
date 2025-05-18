@@ -3,6 +3,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (darkModeState === "enabled") {
         document.body.classList.add("dark-mode");
     }
+
+    const username = localStorage.getItem("username");
+    if (!username) {
+        alert("Please log in first.");
+        window.location.href = "index.html";
+        return;
+    }
 });
 
 function darkMode() {
