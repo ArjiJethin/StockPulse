@@ -71,22 +71,42 @@ document.addEventListener("DOMContentLoaded", () => {
             const username = document.getElementById("login-username").value;
             const password = document.getElementById("login-password").value;
 
-            // 🔽 REPLACE this entire fetch block with the fixed version
-            const res = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password }),
-            });
+            // 🔽 REPLACE the whole fetch block with this
+            try {
+                const res = await fetch("/api/auth/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password }),
+                });
 
-            const result = await res.json(); // ✅ only parse once
+                if (res.ok) {
+                    const result = await res.json(); // parse once ✅
+                    localStorage.setItem(
+                        "sp_current_user",
+                        JSON.stringify(result)
+                    );
+                    localStorage.setItem("username", result.username);
+                    alert("Login successful");
+                    window.location.href = "recoms.html";
+                    return;
+                }
+                /* ---------- FAILURE ---------- */
+                const ct = res.headers.get("content-type") || "";
+                let errMsg;
 
-            if (res.ok) {
-                localStorage.setItem("sp_current_user", JSON.stringify(result));
-                localStorage.setItem("username", result.username);
-                alert("Login successful");
-                window.location.href = "recoms.html"; // ✅ should now work
-            } else {
-                alert(result.message || "Login failed"); // handle backend error message
+                if (ct.includes("application/json")) {
+                    // Guaranteed to parse safely
+                    const obj = await res.json();
+                    errMsg = obj.message || obj.error || JSON.stringify(obj);
+                } else {
+                    // Plain text or unknown type
+                    errMsg = (await res.text()).trim();
+                }
+
+                if (!errMsg) errMsg = "Invalid username or password";
+                alert(errMsg); // <-- always fires here
+            } catch (networkErr) {
+                alert("Network error: " + networkErr.message);
             }
         });
     }

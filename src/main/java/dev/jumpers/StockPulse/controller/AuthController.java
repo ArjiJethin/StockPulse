@@ -36,7 +36,8 @@ public class AuthController {
                     "username", user.getUsername());
             return ResponseEntity.ok(body); // ✅ return actual JSON
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Invalid credentials")); // ← JSON with message
         }
     }
 
