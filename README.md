@@ -1,5 +1,5 @@
 <h1 align="center">📈 StockPulse</h1>
-<p align="center"><img src="Media/Description/stockpulse-logo.png" alt="StockPulse Logo" height="200" /></p>
+<p align="center"><img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Icons/StockPulse%20Gold%20Dark%20NoBg.png?raw=true" alt="StockPulse Logo" height="350" /></p>
 
 <h2>Description📜</h2>
 <p>
@@ -58,9 +58,25 @@
 
 <h2>Screenshots🖼️</h2>
 <div align="center">
-  <img src="Media/Screenshots/Dashboard.png" alt="Dashboard" height="300px" />
-  <img src="Media/Screenshots/Analytics.png" alt="Analytics Page" height="300px" />
-  <img src="Media/Screenshots/Watchlist.png" alt="Watchlist" height="300px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20184707.png?raw=true" alt="Dashboard" height="200px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20184719.png?raw=true" alt="Dashboard" height="200px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20184741.png?raw=true" alt="Dashboard" height="200px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20184732.png?raw=true" alt="Dashboard" height="200px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20184833.png?raw=true" alt="Dashboard" height="200px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20184845.png?raw=true" alt="Dashboard" height="200px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20184938.png?raw=true" alt="Dashboard" height="200px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20184928.png?raw=true" alt="Dashboard" height="200px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20185023.png?raw=true" alt="Dashboard" height="200px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20185002.png?raw=true" alt="Dashboard" height="200px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20185339.png?raw=true" alt="Dashboard" height="200px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20185045.png?raw=true" alt="Dashboard" height="200px" />
+
+  <br/>
+
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20185510.png?raw=true" alt="Dashboard" height="200px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20185602.png?raw=true" alt="Dashboard" height="200px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20185634.png?raw=true" alt="Dashboard" height="200px" />
+  <img src="https://github.com/ArjiJethin/StockPulse/blob/main/src/main/resources/static/assets/Screenshots/Screenshot%202025-05-18%20185728.png?raw=true" alt="Dashboard" height="200px" />
 </div>
 
 <h2>Challenges & Learnings🧠</h2>
