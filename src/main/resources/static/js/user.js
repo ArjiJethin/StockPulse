@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
             };
 
             // Example: use 'bottts'
-            avatarImg.src = dicebearStyles.rings;
+            avatarImg.src = dicebearStyles.bottts;
 
             // To switch styles, just set to any of the above, e.g.:
             // avatarImg.src = dicebearStyles.pixelArtNeutral;
