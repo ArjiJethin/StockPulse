@@ -96,7 +96,7 @@ During development, API rate limits were a major hurdle. To solve this, a dynami
 <p>This project is licensed under the <strong>MIT License</strong>. See the <a href="LICENSE">LICENSE</a> file for details.</p>
 
 <h2>Live Demo 🌐</h2>
-<p>The site is now officially live at <a href="https://stockpulse-hv4q.onrender.com">here</a>. Check it our for yourself and have fun 🙌🏻🫱🏻‍🫲🏻</p>
+<p>The site is now officially live at <a href="https://stockpulse-hv4q.onrender.com">stockpulse.com</a>. Check it our for yourself and have fun 🙌🏻🫱🏻‍🫲🏻</p>
 
 <h2>Conclusion✅</h2>
 <p>
