@@ -3,7 +3,7 @@
 
 <h2>Description📜</h2>
 <p>
-<strong>StockPulse</strong> is a modern, full-stack web application built to track real-time stock market data and visualize analytics for casual investors and developers alike. It combines the power of Spring Boot and Express for backend management, with Alpha Vantage and Finnhub API integrations to deliver live market trends, performance stats, and an interactive UI optimized for all screen sizes.
+<strong><a href='https://stockpulse-hv4q.onrender.com'>StockPulse</a></strong> is a modern, full-stack web application built to track real-time stock market data and visualize analytics for casual investors and developers alike. It combines the power of Spring Boot and Express for backend management, with Alpha Vantage and Finnhub API integrations to deliver live market trends, performance stats, and an interactive UI optimized for all screen sizes.
 </p>
 
 <h2>Features💡</h2>
@@ -96,7 +96,7 @@ During development, API rate limits were a major hurdle. To solve this, a dynami
 <p>This project is licensed under the <strong>MIT License</strong>. See the <a href="LICENSE">LICENSE</a> file for details.</p>
 
 <h2>Live Demo 🌐</h2>
-<p>Currently available via <code>localhost:8080</code> or <a href="https://your-ngrok-url">via ngrok</a> (temporary link).</p>
+<p>The site is now officially live at <a href="https://stockpulse-hv4q.onrender.com">here</a>. Check it our for yourself and have fun 🙌🏻🫱🏻‍🫲🏻</p>
 
 <h2>Conclusion✅</h2>
 <p>
