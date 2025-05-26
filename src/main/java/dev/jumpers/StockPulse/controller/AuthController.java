@@ -34,7 +34,7 @@ public class AuthController {
             Map<String, Object> body = Map.of(
                     "id", user.getId(),
                     "username", user.getUsername());
-            return ResponseEntity.ok(body); // ✅ return actual JSON
+            return ResponseEntity.ok(body);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("message", "Invalid credentials")); // ← JSON with message

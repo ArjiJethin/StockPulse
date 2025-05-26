@@ -71,7 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const username = document.getElementById("login-username").value;
             const password = document.getElementById("login-password").value;
 
-            // 🔽 REPLACE the whole fetch block with this
             try {
                 const res = await fetch("/api/auth/login", {
                     method: "POST",
@@ -80,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
                 if (res.ok) {
-                    const result = await res.json(); // parse once ✅
+                    const result = await res.json();
                     localStorage.setItem(
                         "sp_current_user",
                         JSON.stringify(result)

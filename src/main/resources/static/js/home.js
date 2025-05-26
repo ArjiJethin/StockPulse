@@ -70,7 +70,6 @@ function darkMode() {
 
     autoScrollSummaryBar();
 
-    // 🔁 Re-render charts with new theme colors
     chartInstances.forEach((chart) => {
         const ctx = chart.ctx;
         const { borderColor, gradientFrom, gradientTo } = getChartColors();
@@ -185,7 +184,6 @@ async function fetchQuote(symbol) {
             numericChange: parseFloat(percentChange),
         };
 
-        // ✅ Log the successful quote fetch
         console.log(`✅ Fetched quote data for ${symbol}:`, result);
 
         return result;

@@ -113,7 +113,7 @@ document
             await fetch("/api/user/watchlist", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ stockSymbol: ticker }), // ✅ Correct now
+                body: JSON.stringify({ stockSymbol: ticker }),
                 credentials: "include",
             });
         }

@@ -114,7 +114,7 @@ function formatMillion(value) {
 document.addEventListener("DOMContentLoaded", () => {
     const symbol = getSymbol();
     document.getElementById("stock-symbol").innerText = symbol;
-    updateCompanyCard(symbol); // This stays here
+    updateCompanyCard(symbol);
 
     const name = companyNameMap[symbol.toUpperCase()] || symbol;
     document.getElementById("company-name").textContent = name;
